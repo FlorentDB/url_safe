@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-APP_NAME="lien-clair"
+APP_NAME="url_safe"
 APP_USER="urlsafe"
-APP_DIR="/opt/lien-clair"
-STATE_DIR="/var/lib/lien-clair"
-CONFIG_DIR="/etc/lien-clair"
-NGINX_SITE="/etc/nginx/sites-available/lien-clair"
-NGINX_ENABLED="/etc/nginx/sites-enabled/lien-clair"
-NGINX_RATE_LIMIT="/etc/nginx/conf.d/lien-clair-rate-limit.conf"
+APP_DIR="/opt/url_safe"
+STATE_DIR="/var/lib/url_safe"
+CONFIG_DIR="/etc/url_safe"
+NGINX_SITE="/etc/nginx/sites-available/url_safe"
+NGINX_ENABLED="/etc/nginx/sites-enabled/url_safe"
+NGINX_RATE_LIMIT="/etc/nginx/conf.d/url_safe-rate-limit.conf"
 ACME_ROOT="/var/www/letsencrypt"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd)"
@@ -140,7 +140,7 @@ rsync -a --delete \
     --exclude='*.sqlite3' \
     "$PROJECT_ROOT/data/" "$APP_DIR/data/"
 install -m 0644 "$PROJECT_ROOT/requirements.txt" "$APP_DIR/requirements.txt"
-install -m 0644 "$SCRIPT_DIR/lien-clair.service" "/etc/systemd/system/${APP_NAME}.service"
+install -m 0644 "$SCRIPT_DIR/url_safe.service" "/etc/systemd/system/${APP_NAME}.service"
 
 python3 -m venv "$APP_DIR/.venv"
 "$APP_DIR/.venv/bin/python" -m pip install --upgrade pip
@@ -179,15 +179,15 @@ NGINX
     install -d -o www-data -g www-data -m 0755 "$ACME_ROOT"
 fi
 
-cat > "$CONFIG_DIR/lien-clair.env" <<EOF
+cat > "$CONFIG_DIR/url_safe.env" <<EOF
 URLSAFE_ENV=production
 URLSAFE_ALLOWED_HOSTS=$ALLOWED_HOSTS
 URLSAFE_RATE_LIMIT=30/minute
 URLSAFE_DB_PATH=$STATE_DIR/url_safe.sqlite3
 PYTHONDONTWRITEBYTECODE=1
 EOF
-chmod 0640 "$CONFIG_DIR/lien-clair.env"
-chown root:"$APP_USER" "$CONFIG_DIR/lien-clair.env"
+chmod 0640 "$CONFIG_DIR/url_safe.env"
+chown root:"$APP_USER" "$CONFIG_DIR/url_safe.env"
 
 printf '\n== Configuration Nginx ==\n'
 if [[ -e /etc/nginx/sites-enabled/default || -L /etc/nginx/sites-enabled/default ]]; then
@@ -196,7 +196,7 @@ if [[ -e /etc/nginx/sites-enabled/default || -L /etc/nginx/sites-enabled/default
 fi
 
 cat > "$NGINX_RATE_LIMIT" <<'NGINX'
-limit_req_zone $binary_remote_addr zone=lien_clair_api:10m rate=30r/m;
+limit_req_zone $binary_remote_addr zone=url_safe_api:10m rate=30r/m;
 NGINX
 
 if ((LAN_ONLY)); then
@@ -209,7 +209,7 @@ server {
     client_max_body_size 4k;
 
     location = /api/check {
-        limit_req zone=lien_clair_api burst=10 nodelay;
+        limit_req zone=url_safe_api burst=10 nodelay;
         limit_req_status 429;
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host \$host;
@@ -287,7 +287,7 @@ server {
     add_header Strict-Transport-Security "max-age=31536000" always;
 
     location = /api/check {
-        limit_req zone=lien_clair_api burst=10 nodelay;
+        limit_req zone=url_safe_api burst=10 nodelay;
         limit_req_status 429;
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host \$host;
@@ -333,9 +333,9 @@ systemctl restart "$APP_NAME"
 systemctl --no-pager --full status "$APP_NAME"
 
 if ((LAN_ONLY)); then
-    printf '\nInstallation terminée. Ouvre http://%s ou http://%s.local depuis ton réseau local.\n' \
+    printf '\nInstallation url_safe terminée. Ouvre http://%s ou http://%s.local depuis ton réseau local.\n' \
         "${PI_IP:-<adresse-locale-du-pi>}" "$(hostname -s)"
     printf 'Aucun port de la box n’a été configuré par ce script.\n'
 else
-    printf '\nInstallation terminée. Ouvre https://%s.\n' "$DOMAIN"
+    printf '\nInstallation url_safe terminée. Ouvre https://%s.\n' "$DOMAIN"
 fi

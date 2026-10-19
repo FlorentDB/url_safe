@@ -74,8 +74,8 @@ sudo bash deploy/setup-pi.sh --domain liens.example.net --email admin@example.ne
 
 Le script installe Certbot et demande automatiquement un certificat Let's Encrypt. Il ne configure pas le DNS, le routeur ou le pare-feu et ne contourne pas le CGNAT. Si le certificat ne peut pas être obtenu, le site reste fermé derrière une réponse 503; corrige le DNS/transfert puis relance le script. **Ne transfère jamais le port 8000.**
 
-L’installateur crée un utilisateur système non privilégié `urlsafe`, lance Uvicorn sur `127.0.0.1:8000`, configure Nginx en reverse proxy et écrit SQLite sous `/var/lib/lien-clair`. Il importe aussi le Top 10 000 Tranco; utiliser `--skip-tranco` pour sauter cette étape ou `--tranco-limit 100000` pour en importer davantage.
+L’installateur crée un utilisateur système non privilégié `urlsafe`, installe le service `url_safe`, lance Uvicorn sur `127.0.0.1:8000`, configure Nginx en reverse proxy et écrit SQLite sous `/var/lib/url_safe`. Le code est installé sous `/opt/url_safe`. Il importe aussi le Top 10 000 Tranco; utiliser `--skip-tranco` pour sauter cette étape ou `--tranco-limit 100000` pour en importer davantage.
 
-Le script n’ouvre pas de ports lui-même et ne fournit pas de défense DDoS. Le service utilise un seul worker car le rate limit applicatif est en mémoire. Sauvegarder `/var/lib/lien-clair`, maintenir le Pi à jour et consulter les journaux avec `journalctl -u lien-clair`. Pour contrôler le déploiement public, vérifier `https://<ton-domaine>/`, confirmer que `/docs` répond 404 et ne scanner l’IP publique que si tu contrôles la cible.
+Le script n’ouvre pas de ports lui-même et ne fournit pas de défense DDoS. Le service utilise un seul worker car le rate limit applicatif est en mémoire. Sauvegarder `/var/lib/url_safe`, maintenir le Pi à jour et consulter les journaux avec `journalctl -u url_safe`. Pour contrôler le déploiement public, vérifier `https://<ton-domaine>/`, confirmer que `/docs` répond 404 et ne scanner l’IP publique que si tu contrôles la cible.
 
-`deploy/lien-clair.service` est le modèle systemd installé par le script. `deploy/Caddyfile.example` est un exemple alternatif manuel; l’installateur utilise Nginx.
+`deploy/url_safe.service` est le modèle systemd installé par le script. `deploy/Caddyfile.example` est un exemple alternatif manuel; l’installateur utilise Nginx.

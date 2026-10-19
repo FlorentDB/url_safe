@@ -1,5 +1,5 @@
 [Unit]
-Description=Lien clair URL checker
+Description=URL Safe URL checker
 After=network-online.target
 Wants=network-online.target
 
@@ -7,13 +7,13 @@ Wants=network-online.target
 Type=simple
 User=urlsafe
 Group=urlsafe
-WorkingDirectory=/opt/lien-clair
-EnvironmentFile=/etc/lien-clair/lien-clair.env
+WorkingDirectory=/opt/url_safe
+EnvironmentFile=/etc/url_safe/url_safe.env
 Environment=PYTHONDONTWRITEBYTECODE=1
-StateDirectory=lien-clair
+StateDirectory=url_safe
 StateDirectoryMode=0750
 UMask=0077
-ExecStart=/opt/lien-clair/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers --forwarded-allow-ips=127.0.0.1
+ExecStart=/opt/url_safe/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers --forwarded-allow-ips=127.0.0.1
 Restart=on-failure
 RestartSec=3
 TimeoutStopSec=15
@@ -32,7 +32,7 @@ PrivateDevices=true
 CapabilityBoundingSet=
 AmbientCapabilities=
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
-ReadWritePaths=/var/lib/lien-clair
+ReadWritePaths=/var/lib/url_safe
 
 [Install]
 WantedBy=multi-user.target
