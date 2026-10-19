@@ -17,7 +17,7 @@ DOMAIN=""
 EMAIL=""
 LAN_ONLY=0
 SKIP_TRANCO=0
-TRANCO_LIMIT=10_000
+TRANCO_LIMIT=10000
 
 usage() {
     cat <<'EOF'
@@ -105,7 +105,10 @@ if ((!LAN_ONLY)); then
 fi
 
 [[ "$TRANCO_LIMIT" =~ ^[0-9]+$ ]] \
-    && ((TRANCO_LIMIT >= 1 && TRANCO_LIMIT <= 1000000)) \
+    && ((${#TRANCO_LIMIT} <= 7)) \
+    || fail "--tranco-limit doit être un nombre entre 1 et 1000000."
+TRANCO_LIMIT=$((10#$TRANCO_LIMIT))
+((TRANCO_LIMIT >= 1 && TRANCO_LIMIT <= 1000000)) \
     || fail "--tranco-limit doit être compris entre 1 et 1000000."
 
 if [[ -r /etc/os-release ]]; then
