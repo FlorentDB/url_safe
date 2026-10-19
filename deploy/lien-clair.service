@@ -1,0 +1,37 @@
+[Unit]
+Description=Lien clair URL checker
+After=network.target
+
+[Service]
+Type=simple
+User=urlsafe
+Group=urlsafe
+WorkingDirectory=/opt/lien-clair
+Environment=URLSAFE_ENV=production
+Environment=URLSAFE_ALLOWED_HOSTS=example.net,www.example.net
+Environment=URLSAFE_RATE_LIMIT=30/minute
+Environment=URLSAFE_DB_PATH=/var/lib/lien-clair/url_safe.sqlite3
+Environment=PYTHONDONTWRITEBYTECODE=1
+StateDirectory=lien-clair
+StateDirectoryMode=0750
+UMask=0077
+ExecStart=/opt/lien-clair/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ProtectHostname=true
+ProtectClock=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ReadWritePaths=/var/lib/lien-clair
+
+[Install]
+WantedBy=multi-user.target

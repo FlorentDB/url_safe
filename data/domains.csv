@@ -1,0 +1,8 @@
+hostname,status,source
+example.com,known,Reserved example domain for demo only
+example.org,known,Reserved example domain for demo only
+github.com,known,Curated example domain; not a security validation
+google.com,known,Curated example domain; not a security validation
+mozilla.org,known,Curated example domain; not a security validation
+wikipedia.org,known,Curated example domain; not a security validation
+youtube.com,known,Curated example domain; not a security validation
