@@ -71,7 +71,7 @@ test("the packaged Unicode tables keep the Latin confusables", () => {
 
 test("the dataset host is only accepted over HTTPS", () => {
   assert.equal(
-    datasetOrigin("https://exemple.org/lien-clair/v1"),
+    datasetOrigin("https://exemple.org/url_safe/v1"),
     "https://exemple.org/*",
   );
   assert.equal(datasetOrigin("http://exemple.org/"), null);

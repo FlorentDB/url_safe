@@ -79,7 +79,7 @@ while (($#)); do
 done
 
 [[ -f "$PROJECT_ROOT/app/main.py" && -f "$PROJECT_ROOT/requirements.txt" ]] \
-    || fail "Lance ce script depuis le dépôt cloné Lien clair."
+    || fail "Lance ce script depuis le dépôt cloné url_safe."
 [[ $EUID -eq 0 ]] || fail "Lance avec sudo: sudo bash deploy/setup-pi.sh"
 [[ -d /run/systemd/system ]] || fail "Ce script nécessite systemd (Raspberry Pi OS ou Debian)."
 

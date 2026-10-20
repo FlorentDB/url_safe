@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Lien clair is a local-first prototype for inspecting pasted URLs without visiting their destinations. It parses and normalizes URLs, checks exact local domain and brand registries, applies URL/Unicode heuristics, and optionally displays a Tranco popularity rank. Results are informational and never certify that a page is safe.
+url_safe is a local-first prototype for inspecting pasted URLs without visiting their destinations. It parses and normalizes URLs, checks exact local domain and brand registries, applies URL/Unicode heuristics, and optionally displays a Tranco popularity rank. Results are informational and never certify that a page is safe.
 
 ## Stack
 
@@ -10,7 +10,7 @@ Lien clair is a local-first prototype for inspecting pasted URLs without visitin
 - `urllib.parse`, `ipaddress`, and `idna` (UTS #46) for URL and hostname handling.
 - `confusable-homoglyphs`, `rapidfuzz`, and `tldextract` for Unicode warnings, edit-distance matching, and registrable-domain boundaries.
 - Plain HTML, CSS, and JavaScript; no frontend build step.
-- Pytest/FastAPI `TestClient`; deployment bootstrap for Raspberry Pi OS/Debian with systemd, Nginx, and optional Certbot TLS.
+- Pytest/FastAPI `TestClient`; deployment configurations for Render and Raspberry Pi OS/Debian with systemd, Nginx, and optional Certbot TLS.
 - The browser extension is plain ES modules with no framework and no build dependency. The Node test runner and a hand-written ZIP writer are enough; the only build tooling is a Python script that draws the icons.
 
 ## Important Paths
@@ -33,6 +33,7 @@ app/
   setup-pi.sh             One-command Raspberry Pi setup (Nginx/systemd)
   url_safe.service        Hardened single-worker systemd unit
   Caddyfile.example       Optional manual Caddy alternative
+ render.yaml              Free Render demo deployment
  data/
   domains.csv             Small demonstration domain list, not a safety list
   brands.csv              Curated starter brand-to-domain registry
@@ -75,8 +76,6 @@ shared/
  README.md                 Setup and operational instructions
 ```
 
-The deployment identifier is `url_safe`; the user-facing product name remains “Lien clair”.
-
 ## Request Flow
 
 1. The browser sends JSON `{ "url": "..." }` to `POST /api/check`; the full submitted URL is not included in the response and is not persisted.
@@ -99,6 +98,8 @@ Unicode checks are heuristics, not a complete UTS #39 skeleton/bidi implementati
 `domains` stores exact normalized hostnames with `known` or `malicious` status and a source. `brand_domains` stores brand name, official hostname, and source. Startup imports the checked-in CSV seed rows with `ignore_existing=True`; the CSVs are curated examples and are not maintained threat intelligence.
 
 `tranco_snapshots` records list ID, source, import time, row count, and current-snapshot state. `tranco_domains` stores hostname/rank by list ID. Tranco is downloaded only by the explicit CLI or Pi bootstrap, never during app startup or a URL check. Runtime SQLite is stored in `data/url_safe.sqlite3` for development and `/var/lib/url_safe/url_safe.sqlite3` on the Pi.
+
+The Render Blueprint uses `/tmp/url_safe.sqlite3` for a free demo. Render's free service has an ephemeral filesystem and may sleep, so this database is disposable and is rebuilt from the demonstration CSVs at startup. Do not use the free configuration for production or persistent threat-intelligence data.
 
 ## Commands
 
@@ -239,7 +240,7 @@ The hybrid shape described above is what was built. The extension checks locally
 
 ### Two entry points, both user-initiated
 
-The extension offers a toolbar popup, where a URL can be pasted by hand, and a context-menu entry on links, named "Vérifier avec Lien clair". The menu entry appears only in the `link` context, so it is offered exactly when there is a link to check. There is no content script, no hover detection, and no page-load inspection. Every check is the result of a deliberate gesture, which is what makes the single purpose defensible in front of a store review.
+The extension offers a toolbar popup, where a URL can be pasted by hand, and a context-menu entry on links, named "Vérifier avec url_safe". The menu entry appears only in the `link` context, so it is offered exactly when there is a link to check. There is no content script, no hover detection, and no page-load inspection. Every check is the result of a deliberate gesture, which is what makes the single purpose defensible in front of a store review.
 
 The context menu opens a full-page result in a new tab. The checked address is handed over through `chrome.storage.session` and only an opaque identifier travels in the address of the page, so the URL itself never reaches the address bar or the browser history.
 
@@ -305,4 +306,4 @@ What has **not** been verified automatically is that the popup paints the verdic
 - The placeholder address in `extension/manifest.json` must be replaced by the real one, and the store links in `app/static/extension.html` must point at the real listings.
 - The contact address in `app/static/confidentialite.html` must be replaced by a real one, and it must be monitored.
 - The demonstration seed data must be replaced by a maintained feed, exactly as for the website.
-- The extension identifier `lien-clair@lienclair.example` must be replaced by one the project controls, because an identifier that cannot be changed afterwards makes the listing permanent.
+- The placeholder extension identifier `url_safe@url_safe.example` must be replaced by one the project controls, because an identifier that cannot be changed afterwards makes the listing permanent.

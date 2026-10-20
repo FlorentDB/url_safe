@@ -3,7 +3,7 @@
  *
  * It does three things and nothing else:
  *
- * 1. It offers a "Vérifier avec Lien clair" entry in the context menu of a
+ * 1. It offers a "Vérifier avec url_safe" entry in the context menu of a
  *    link. The entry only appears when the user right-clicks a link, so the
  *    extension never inspects a page on its own.
  * 2. It opens the result page when that entry is used. The checked address is
@@ -26,13 +26,13 @@ const datasets = import("../shared/datasets.js");
 const settings = import("../shared/settings.js");
 
 /** The identifier of the context menu entry. */
-const CONTEXT_MENU_ID = "lien-clair-check-link";
+const CONTEXT_MENU_ID = "url_safe-check-link";
 
 /** The page opened to show a verdict. */
 const RESULT_PAGE = "src/result/result.html";
 
 /** The identifier of the daily refresh alarm. */
-const REFRESH_ALARM = "lien-clair-refresh";
+const REFRESH_ALARM = "url_safe-refresh";
 
 /** How often the datasets are refreshed, in minutes. */
 const REFRESH_PERIOD_MINUTES = 1440;

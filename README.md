@@ -1,4 +1,4 @@
-# Lien clair
+# url_safe
 
 Prototype local pour examiner une URL sans l’ouvrir. Le service analyse son format, son nom d’hôte et une petite base SQLite. Il ne visite pas la destination et ne conserve pas les URL soumises.
 
@@ -51,7 +51,7 @@ L’extension reprend les mêmes règles en JavaScript et vérifie **entièremen
 Deux entrées, toutes deux déclenchées volontairement :
 
 - l’icône de la barre d’outils ouvre une fenêtre où l’on colle une adresse ;
-- un clic droit sur un lien propose « Vérifier avec Lien clair », et le verdict s’ouvre dans un onglet.
+- un clic droit sur un lien propose « Vérifier avec url_safe », et le verdict s’ouvre dans un onglet.
 
 Les listes de domaines, de marques, de caractères confondables et de suffixes publics sont installées avec l’extension. Elles peuvent être actualisées depuis la page d’options, ce qui demande alors l’autorisation pour cet hôte seul ; tant que cette fonction n’est pas utilisée, l’extension ne joint aucun serveur.
 
@@ -60,7 +60,7 @@ Les listes de domaines, de marques, de caractères confondables et de suffixes p
 ```bash
 cd extension
 npm test          # les suites JavaScript
-npm run build     # extension/dist/lien-clair-1.0.0-chrome.zip et -firefox.zip
+npm run build     # extension/dist/url_safe-1.0.0-chrome.zip et -firefox.zip
 ```
 
 Pour installer une version locale, décompresser l’archive puis charger le dossier `manifest.json` depuis la page des extensions du navigateur.
@@ -79,6 +79,24 @@ Les règles existent en double, en Python dans `app/` et en JavaScript dans `ext
 « Domaine répertorié » signifie uniquement qu’une entrée correspond dans la base locale. « Aucun signal local » ne signifie pas que le lien est sûr. La base fournie ne contient aucune liste de menaces; elle doit être alimentée depuis des sources fiables et actualisées avant tout usage réel.
 
 Le navigateur envoie l’URL à ce serveur pour l’analyse, mais le serveur ne la récupère pas. Seul le nom d’hôte est recherché en base; aucune URL soumise n’est enregistrée ni renvoyée par l’API, dont les réponses sont marquées `no-store`.
+
+## Déploiement Render (démo gratuite)
+
+Le fichier `render.yaml` décrit un service Render gratuit, hébergé dans la région de Francfort. Pour le publier :
+
+1. Pousser le dépôt sur GitHub.
+2. Dans Render, choisir **New > Blueprint**, connecter le dépôt et confirmer la création du service `url-safe`.
+3. Ouvrir l’adresse `onrender.com` attribuée au service.
+
+Aucune redirection de port sur la box n’est nécessaire. Render fournit HTTPS. Le nom `url-safe.onrender.com` est indicatif : Render peut attribuer un autre sous-domaine s’il est déjà pris.
+
+**Cette configuration est pour une démonstration, pas pour un service de production.** Render suspend une instance gratuite après 15 minutes sans requête; son réveil peut prendre environ une minute. Son système de fichiers est éphémère : la base SQLite locale peut être perdue lors d’une mise en veille, d’un redémarrage ou d’un redéploiement. L’application la recrée alors à partir des CSV de démonstration; les imports Tranco ne sont pas persistants. Render indique que ses offres gratuites ne sont pas destinées à la production. Vérifier les limites et tarifs actuels avant de publier.
+
+Le site envoie le texte de l’URL au serveur pour l’analyse. Render termine HTTPS à son infrastructure et traite donc la requête; ne soumettre aucune adresse contenant un mot de passe, un jeton ou une autre information confidentielle. La page de confidentialité distingue maintenant le site de l’extension, qui vérifie localement.
+
+Le domaine personnalisé peut être ajouté après l’achat : l’ajouter dans les réglages du service Render, configurer les enregistrements DNS demandés par Render, puis ajouter ce nom à `URLSAFE_ALLOWED_HOSTS`. Render émet et renouvelle le certificat TLS.
+
+Pour un service toujours disponible, il faudra passer à une offre payante avec stockage persistant, ou faire évoluer l’application vers une base de données partagée. SQLite sur disque persistant convient à une seule instance; la montée en charge sur plusieurs instances nécessite aussi de remplacer la limitation de débit en mémoire par un stockage partagé.
 
 ## Installation Raspberry Pi
 

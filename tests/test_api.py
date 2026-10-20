@@ -194,9 +194,9 @@ def test_privacy_policy_page_is_served(tmp_path) -> None:
 
     assert response.status_code == 200
     assert "Politique de confidentialité" in response.text
-    # The page has to state what the extension does not collect, because the
-    # stores read it before they review the package.
-    assert "ne collecte aucune donnée personnelle" in response.text
+    # Distinguish the server-side website from the local-only browser extension.
+    assert "Le site envoie l’adresse soumise au serveur" in response.text
+    assert "analyse les adresses sur votre appareil" in response.text
     assert "n’a pas accès à votre historique" in response.text
 
 

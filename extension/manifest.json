@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "__MSG_extensionDescription__",
   "default_locale": "fr",
-  "homepage_url": "https://example.invalid/lien-clair",
+  "homepage_url": "https://example.invalid/url_safe",
 
   "icons": {
     "16": "src/icons/icon-16.png",

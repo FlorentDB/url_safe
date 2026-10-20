@@ -1,9 +1,9 @@
 {
-  "name": "lien-clair-extension",
+  "name": "url_safe-extension",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Extension Lien clair : vérification de liens sans les ouvrir, entièrement locale.",
+  "description": "Extension url_safe : vérification de liens sans les ouvrir, entièrement locale.",
   "scripts": {
     "test": "node --test test/*.test.js",
     "build": "node scripts/build.mjs",

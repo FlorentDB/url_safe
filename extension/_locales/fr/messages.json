@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Lien clair — vérificateur d’URL",
+    "message": "url_safe — vérificateur d’URL",
     "description": "The name of the extension, shown in the browser and in the stores."
   },
   "extensionDescription": {
@@ -8,11 +8,11 @@
     "description": "The description of the extension, shown in the stores."
   },
   "actionTitle": {
-    "message": "Lien clair — vérifier une adresse",
+    "message": "url_safe — vérifier une adresse",
     "description": "The tooltip of the toolbar button."
   },
   "contextMenuTitle": {
-    "message": "Vérifier avec Lien clair",
+    "message": "Vérifier avec url_safe",
     "description": "The entry added to the context menu of a link."
   }
 }

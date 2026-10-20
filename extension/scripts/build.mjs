@@ -341,7 +341,7 @@ async function main() {
 
     const archive = join(
       DIST_DIR,
-      `lien-clair-${target.manifest.version}-${target.name}.zip`,
+      `url_safe-${target.manifest.version}-${target.name}.zip`,
     );
     const size = await writeArchive(directory, archive);
     console.log(

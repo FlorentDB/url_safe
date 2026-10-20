@@ -27,7 +27,8 @@ export const DATASET_FILES = {
 };
 
 /** The storage key holding the refreshed datasets and their metadata. */
-export const STORAGE_KEY = "lienClairDatasets";
+export const STORAGE_KEY = "url_safeDatasets";
+const LEGACY_STORAGE_KEY = "lienClairDatasets";
 
 /** The schema version this build of the extension understands. */
 export const SCHEMA_VERSION = 1;
@@ -60,8 +61,16 @@ export async function loadBundledDatasets() {
  * @returns {Promise<object | null>} the datasets, or null when there are none
  */
 export async function readCachedDatasets() {
-  const stored = await chrome.storage.local.get(STORAGE_KEY);
-  const entry = stored[STORAGE_KEY];
+  const stored = await chrome.storage.local.get([
+    STORAGE_KEY,
+    LEGACY_STORAGE_KEY,
+  ]);
+  let entry = stored[STORAGE_KEY];
+  if (!entry && stored[LEGACY_STORAGE_KEY]?.datasets) {
+    entry = stored[LEGACY_STORAGE_KEY];
+    await chrome.storage.local.set({ [STORAGE_KEY]: entry });
+    await chrome.storage.local.remove(LEGACY_STORAGE_KEY);
+  }
   if (!entry || !entry.datasets) {
     return null;
   }

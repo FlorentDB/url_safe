@@ -33,7 +33,7 @@ const EXTENSION_DIR = join(EXTENSION_ROOT, "dist", "firefox");
 const PORT = 9222;
 
 /** The identifier the extension declares for itself. */
-const ADDON_ID = "lien-clair@lienclair.example";
+const ADDON_ID = "url_safe@url_safe.example";
 
 /**
  * Wait for a condition to become true.
@@ -192,7 +192,7 @@ async function stopFirefox(profile) {
  * @returns {Promise<void>} resolves once the extension is installed
  */
 async function main() {
-  const profile = join(tmpdir(), `lien-clair-firefox-${process.pid}`);
+  const profile = join(tmpdir(), `url_safe-firefox-${process.pid}`);
   mkdirSync(profile, { recursive: true });
   console.log(`Profil : ${profile}`);
 

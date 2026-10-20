@@ -1,5 +1,5 @@
 /**
- * The Lien clair checker, running entirely on the device.
+ * The url_safe checker, running entirely on the device.
  *
  * The extension never sends the URL it checks to a server. It loads the
  * domain registry, the brand registry, the Unicode tables and the public

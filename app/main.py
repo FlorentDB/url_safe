@@ -74,7 +74,7 @@ def create_app(database_path: Path | None = None) -> FastAPI:
         yield
 
     application = FastAPI(
-        title="Lien clair",
+        title="url_safe",
         description="Analyse locale de liens sans les ouvrir.",
         lifespan=lifespan,
         docs_url=None if production else "/docs",

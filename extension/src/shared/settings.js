@@ -6,7 +6,8 @@
  * never asks for a host permission and never touches the network.
  */
 
-export const SETTINGS_KEY = "lienClairSettings";
+export const SETTINGS_KEY = "url_safeSettings";
+const LEGACY_SETTINGS_KEY = "lienClairSettings";
 
 /** The settings a fresh installation starts with. */
 export const DEFAULT_SETTINGS = {
@@ -20,8 +21,17 @@ export const DEFAULT_SETTINGS = {
  * @returns {Promise<object>} the settings, with the defaults filled in
  */
 export async function readSettings() {
-  const stored = await chrome.storage.local.get(SETTINGS_KEY);
-  return { ...DEFAULT_SETTINGS, ...(stored[SETTINGS_KEY] ?? {}) };
+  const stored = await chrome.storage.local.get([
+    SETTINGS_KEY,
+    LEGACY_SETTINGS_KEY,
+  ]);
+  let settings = stored[SETTINGS_KEY];
+  if (!settings && stored[LEGACY_SETTINGS_KEY]) {
+    settings = stored[LEGACY_SETTINGS_KEY];
+    await chrome.storage.local.set({ [SETTINGS_KEY]: settings });
+    await chrome.storage.local.remove(LEGACY_SETTINGS_KEY);
+  }
+  return { ...DEFAULT_SETTINGS, ...(settings ?? {}) };
 }
 
 /**
