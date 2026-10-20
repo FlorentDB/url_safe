@@ -1,0 +1,18 @@
+{
+  "extensionName": {
+    "message": "Lien clair — vérificateur d’URL",
+    "description": "The name of the extension, shown in the browser and in the stores."
+  },
+  "extensionDescription": {
+    "message": "Examinez un lien sans l’ouvrir : domaine, caractères suspects et imitation de marque, entièrement sur votre appareil.",
+    "description": "The description of the extension, shown in the stores."
+  },
+  "actionTitle": {
+    "message": "Lien clair — vérifier une adresse",
+    "description": "The tooltip of the toolbar button."
+  },
+  "contextMenuTitle": {
+    "message": "Vérifier avec Lien clair",
+    "description": "The entry added to the context menu of a link."
+  }
+}

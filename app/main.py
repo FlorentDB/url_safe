@@ -24,6 +24,7 @@ from app.database import (
     lookup_popular_domain,
 )
 from app.security_middleware import RequestBodyLimitMiddleware
+from app.verdict import build_verdict
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -106,6 +107,14 @@ def create_app(database_path: Path | None = None) -> FastAPI:
     def home() -> FileResponse:
         return FileResponse(STATIC_DIR / "index.html")
 
+    @application.get("/confidentialite", include_in_schema=False)
+    def privacy_policy() -> FileResponse:
+        return FileResponse(STATIC_DIR / "confidentialite.html")
+
+    @application.get("/extension", include_in_schema=False)
+    def extension_page() -> FileResponse:
+        return FileResponse(STATIC_DIR / "extension.html")
+
     @application.post("/api/check", response_model=CheckResult)
     @limiter.limit(os.environ.get("URLSAFE_RATE_LIMIT", "30/minute"))
     def check_link(request: Request, payload: CheckRequest) -> CheckResult:
@@ -124,69 +133,21 @@ def create_app(database_path: Path | None = None) -> FastAPI:
         analysis.pop("submitted_url", None)
         analysis.pop("normalized_url", None)
 
-        if record and record["status"] == "malicious":
-            classification = "suspicious"
-            title = "Domaine signalé"
-            explanation = "Une source de référence locale signale ce domaine. N’ouvre pas ce lien."
-            reasons.append(f"Signalé par : {record['source']}.")
-        elif brand_match and brand_match["match_type"] in {
-            "lookalike",
-            "nested_brand_domain",
-            "unicode_lookalike",
-        }:
-            classification = "impersonation"
-            title = f"Ressemble à {brand_match['brand_name']}"
-            official_domain = str(brand_match["official_hostname"])
-            if brand_match["match_type"] == "nested_brand_domain":
-                explanation = (
-                    f"Le domaine officiel {official_domain} apparaît dans une partie secondaire de l’adresse. "
-                    "Cela ne signifie pas que le site appartient à cette marque."
-                )
-                reasons.append("Un domaine officiel est utilisé comme sous-domaine d’un autre site.")
-            elif brand_match["match_type"] == "unicode_lookalike":
-                explanation = (
-                    f"Des caractères du domaine sont confondables avec ceux de {official_domain} selon les données Unicode. "
-                    "Cela indique une imitation possible, pas une fraude confirmée."
-                )
-                reasons.append(f"Caractères Unicode confondables avec le domaine officiel {official_domain}.")
-            else:
-                explanation = (
-                    f"Le nom de domaine diffère d’un caractère de {official_domain}. "
-                    "Cela peut être une imitation, mais ce signal ne prouve pas une fraude."
-                )
-                reasons.append(f"Ressemblance avec le domaine officiel {official_domain}.")
-        elif reasons:
-            classification = "suspicious"
-            title = "À examiner"
-            explanation = "Des éléments inhabituels ont été repérés. Cela ne prouve pas à lui seul que le lien est malveillant."
-        elif brand_match and brand_match["match_type"] == "official":
-            classification = "known"
-            title = f"Domaine répertorié pour {brand_match['brand_name']}"
-            explanation = "Le domaine correspond au registre local de la marque; cela ne garantit pas que chaque page soit sûre."
-        elif record and record["status"] == "known":
-            classification = "known"
-            title = "Domaine répertorié"
-            explanation = "Ce domaine est dans la liste locale, ce qui ne garantit pas que cette page ou ce lien soit sûr."
-        else:
-            classification = "unknown"
-            title = "Aucun signal local"
-            explanation = "Aucune correspondance dans la base locale. Ce résultat ne certifie pas la sécurité du lien."
+        verdict = build_verdict(
+            reasons=reasons,
+            record=record,
+            brand_match=brand_match,
+        )
 
         return CheckResult(
             **analysis,
-            classification=classification,
-            title=title,
-            explanation=explanation,
-            reasons=reasons,
-            source=(
-                record["source"]
-                if record
-                else str(brand_match["source"])
-                if brand_match
-                else None
-            ),
-            matched_brand=str(brand_match["brand_name"]) if brand_match else None,
-            official_domain=str(brand_match["official_hostname"]) if brand_match else None,
+            classification=verdict.classification,
+            title=verdict.title,
+            explanation=verdict.explanation,
+            reasons=verdict.reasons,
+            source=verdict.source,
+            matched_brand=verdict.matched_brand,
+            official_domain=verdict.official_domain,
             popular_rank=int(popularity["rank"]) if popularity else None,
             tranco_list_id=str(popularity["list_id"]) if popularity else None,
             tranco_downloaded_at=str(popularity["downloaded_at"]) if popularity else None,

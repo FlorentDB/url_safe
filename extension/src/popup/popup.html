@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>Lien clair</title>
+    <link rel="stylesheet" href="../shared/theme.css">
+    <link rel="stylesheet" href="popup.css">
+    <script src="popup.js" type="module"></script>
+  </head>
+  <body>
+    <header class="popup-header">
+      <span class="wordmark">
+        <span class="wordmark-mark" aria-hidden="true">↗</span>
+        <span>lien clair</span>
+      </span>
+    </header>
+
+    <main>
+      <form id="check-form" class="check-form">
+        <label for="url-input">Adresse du lien</label>
+        <div class="input-row">
+          <input
+            id="url-input"
+            name="url"
+            type="text"
+            inputmode="url"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="https://exemple.com/..."
+            maxlength="2048"
+            required
+            aria-describedby="privacy-note"
+          >
+          <button id="check-button" type="submit">
+            <span>Vérifier</span>
+          </button>
+        </div>
+        <p id="privacy-note" class="privacy-note">
+          <span aria-hidden="true">◉</span>
+          L’adresse est analysée sur votre appareil. Rien n’est envoyé.
+        </p>
+      </form>
+
+      <section id="result" class="result" aria-live="polite" hidden></section>
+    </main>
+
+    <footer class="popup-footer">
+      <button id="options-button" class="link-button" type="button">Options</button>
+    </footer>
+  </body>
+</html>

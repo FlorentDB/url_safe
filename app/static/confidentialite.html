@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f5ef">
+    <meta name="description" content="Politique de confidentialité de Lien clair.">
+    <title>Lien clair | Confidentialité</title>
+    <style>
+      /*
+       * The styles are inline on purpose. This file is served by the website
+       * and shipped inside the extension, where a link to a stylesheet would
+       * not resolve. One self-contained file works in both places, and there
+       * is no second copy that could drift.
+       */
+      :root {
+        color-scheme: light;
+        --paper: #f4f5ef;
+        --surface: #ffffff;
+        --ink: #172b25;
+        --muted: #64716b;
+        --line: #dce2da;
+        --green: #146b50;
+        --green-dark: #0f4f3d;
+        --lime: #d9f36a;
+        --serif: Georgia, "Times New Roman", serif;
+        --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+        font-family: var(--sans);
+        color: var(--ink);
+        background: var(--paper);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 84% 10%, rgba(217, 243, 106, 0.28), transparent 28rem),
+          var(--paper);
+      }
+
+      .topbar, footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: clamp(1.25rem, 5vw, 5rem);
+      }
+
+      .topbar {
+        height: 76px;
+        border-bottom: 1px solid rgba(23, 43, 37, 0.1);
+      }
+
+      .wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: var(--ink);
+        font-size: 1.05rem;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .wordmark-mark {
+        display: grid;
+        width: 1.8rem;
+        aspect-ratio: 1;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--lime);
+        color: var(--green-dark);
+        font-size: 1.1rem;
+      }
+
+      .topbar-note { color: var(--muted); font-size: 0.82rem; }
+
+      main {
+        width: min(100% - 2.5rem, 680px);
+        margin: clamp(2.5rem, 7vh, 4.5rem) auto 0;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.9rem;
+        color: var(--green);
+        font-size: 0.72rem;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: var(--serif);
+        font-size: 3.2rem;
+        font-weight: 500;
+        line-height: 1;
+      }
+
+      h1 span { color: var(--green); }
+
+      .legal-section {
+        margin-top: 2.4rem;
+        padding-top: 1.6rem;
+        border-top: 1px solid var(--line);
+      }
+
+      .legal-section h2 {
+        margin: 0 0 0.8rem;
+        font-family: var(--serif);
+        font-size: 1.35rem;
+        font-weight: 500;
+      }
+
+      .legal-section p {
+        margin: 0 0 0.9rem;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.7;
+      }
+
+      .legal-section a { color: var(--green); overflow-wrap: anywhere; }
+
+      .legal-section:last-child { margin-bottom: 5.5rem; }
+
+      footer {
+        min-height: 58px;
+        border-top: 1px solid rgba(23, 43, 37, 0.1);
+        color: #79847e;
+        font-size: 0.68rem;
+      }
+
+      footer span:first-child { font-weight: 750; letter-spacing: 0.08em; }
+      .footer-separator { padding-inline: 0.4rem; color: var(--green); }
+
+      @media (max-width: 560px) {
+        h1 { font-size: 2.4rem; }
+        .topbar, footer { padding-inline: 1.25rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="Lien clair, accueil">
+        <span class="wordmark-mark" aria-hidden="true">↗</span>
+        <span>lien clair</span>
+      </a>
+      <span class="topbar-note">Analyse locale</span>
+    </header>
+
+    <main class="legal">
+      <p class="eyebrow">Politique de confidentialité</p>
+      <h1>Ce que Lien clair<br><span>ne collecte pas.</span></h1>
+
+      <section class="legal-section">
+        <h2>Résumé</h2>
+        <p>
+          Lien clair ne collecte aucune donnée personnelle. Ni le site, ni
+          l’extension navigateur ne transmettent les adresses que vous
+          vérifiez, et ils ne les enregistrent pas. L’extension ne dispose
+          d’aucun accès à votre historique de navigation.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>Le site web</h2>
+        <p>
+          Lorsque vous collez une adresse sur ce site, elle est envoyée dans le
+          corps d’une requête adressée au serveur, qui l’analyse sur place. Le
+          serveur n’ouvre jamais l’adresse, ne la suit pas et ne contacte
+          aucun des sites qu’elle désigne.
+        </p>
+        <p>
+          L’adresse est utilisée pour comparer son nom de domaine aux
+          registres locaux. Elle n’est écrite ni dans la base de données, ni
+          dans un journal, ni dans un fichier. Les journaux d’accès du
+          serveur mentionnent la route appelée, jamais le contenu de la
+          requête.
+        </p>
+        <p>
+          Le site n’utilise ni cookie, ni traceur, ni outil de mesure
+          d’audience, ni service tiers d’aucune sorte. Aucune police de
+          caractères ni aucun script n’est chargé depuis un autre domaine.
+        </p>
+        <p>
+          Le serveur conserve dans sa mémoire, le temps de la session, les
+          adresses IP des requêtes, uniquement pour limiter le nombre de
+          vérifications par minute. Cette limite est remise à zéro au
+          redémarrage du service.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>L’extension navigateur</h2>
+        <p>
+          L’extension effectue toutes les vérifications sur votre appareil. Elle
+          ne contient aucun script injecté dans les pages, ne demande pas la
+          permission de lire vos onglets et n’a pas accès à votre historique.
+        </p>
+        <p>
+          Les listes de domaines, de marques, de caractères confondables et de
+          suffixes publics sont installées avec l’extension. Aucune adresse
+          n’est transmise pour les obtenir.
+        </p>
+        <p>
+          Vous pouvez facultativement désigner un hôte depuis lequel l’extension
+          actualise ces listes. L’autorisation demandée ne porte que sur cet
+          hôte, et le téléchargement obtenu est identique pour tous les
+          utilisateurs : il ne révèle donc rien des liens que vous vérifiez.
+          Tant que vous n’utilisez pas cette fonction, l’extension ne joint
+          aucun serveur.
+        </p>
+        <p>
+          L’extension ne contient ni traceur, ni mesure d’audience, ni service
+          tiers. Elle ne demande aucune donnée identifiante.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>Ce que Lien clair ne peut pas garantir</h2>
+        <p>
+          Un verdict indique ce que les données locales permettent de dire sur
+          une adresse. Un domaine connu peut être compromis, et un domaine
+          inconnu n’est pas forcément dangereux. Aucun outil, et cette
+          extension comprise, ne peut certifier qu’un lien est sûr.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>Vos choix</h2>
+        <p>
+          Vous pouvez à tout moment revenir aux listes installées avec
+          l’extension, depuis sa page d’options. La suppression de l’extension
+          efface les listes actualisées et tous les réglages qu’elle
+          conserve.
+        </p>
+        <p>
+          Ce site ne dépose rien sur votre ordinateur qui puisse vous
+          identifier, et il n’utilise pas de cookie : il n’existe donc aucune
+          donnée à supprimer de ce côté.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>Nous écrire</h2>
+        <p>
+          Pour toute question sur cette politique, sur les données que le
+          projet traite ou pour exercer un droit, écrivez à
+          <a href="mailto:confidentialite@example.invalid">confidentialite@example.invalid</a>.
+          Cette adresse doit être remplacée par une adresse réelle avant la
+          publication.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>Mise à jour</h2>
+        <p>
+          Dernière révision : <time datetime="2026-10-19">19 octobre 2026</time>.
+          Toute modification substantielle de cette politique sera signalée
+          dans cette page.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <span>LIEN CLAIR <span class="footer-separator">/</span> PROTOTYPE</span>
+      <span>Analyse sans navigation</span>
+    </footer>
+  </body>
+</html>

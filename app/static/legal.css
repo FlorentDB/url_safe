@@ -1,0 +1,80 @@
+/* The legal pages, which are longer and narrower than the checker. */
+
+.legal {
+  width: min(100% - 2.5rem, 680px);
+  margin: clamp(2.5rem, 7vh, 4.5rem) auto 0;
+}
+
+.legal h1 {
+  font-size: 3.2rem;
+}
+
+.legal-section {
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line);
+}
+
+.legal-section h2 {
+  margin: 0 0 0.8rem;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.legal-section p {
+  margin: 0 0 0.9rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.legal-section a {
+  color: var(--green);
+  overflow-wrap: anywhere;
+}
+
+.legal-section:last-child {
+  margin-bottom: 5.5rem;
+}
+
+.store-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.store-list li {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.store-list a {
+  font-weight: 700;
+}
+
+.store-list span {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.legal code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: rgba(23, 43, 37, 0.07);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.86em;
+}
+
+@media (max-width: 560px) {
+  .legal h1 {
+    font-size: 2.4rem;
+  }
+}

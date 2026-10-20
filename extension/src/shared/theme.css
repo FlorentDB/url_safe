@@ -1,0 +1,264 @@
+/*
+ * The visual language of Lien clair, shared by the extension pages.
+ *
+ * The tokens and the verdict styles are the same as the ones the website
+ * uses, so a verdict looks the same whether it was read on the site or in
+ * the extension.
+ */
+
+:root {
+  color-scheme: light;
+  --paper: #f4f5ef;
+  --surface: #ffffff;
+  --ink: #172b25;
+  --muted: #64716b;
+  --line: #dce2da;
+  --green: #146b50;
+  --green-dark: #0f4f3d;
+  --lime: #d9f36a;
+  --red: #a3382b;
+  --red-pale: #fff0eb;
+  --amber: #8a5a12;
+  --amber-pale: #fff5d9;
+  --serif: Georgia, "Times New Roman", serif;
+  --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.wordmark-mark {
+  display: grid;
+  width: 1.6rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--green-dark);
+  font-size: 1rem;
+}
+
+.result {
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--green);
+  border-radius: 7px;
+  background: var(--surface);
+  animation: rise-in 220ms ease-out both;
+}
+
+.result[data-classification="suspicious"] {
+  border-left-color: var(--red);
+}
+
+.result[data-classification="impersonation"],
+.result[data-classification="unknown"] {
+  border-left-color: #bd842b;
+}
+
+.result[data-classification="error"] {
+  border-left-color: var(--red);
+}
+
+.result-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.result-icon {
+  display: grid;
+  width: 2.3rem;
+  flex: 0 0 2.3rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: #e5f2e8;
+  color: var(--green);
+  font-weight: 800;
+}
+
+.result[data-classification="suspicious"] .result-icon,
+.result[data-classification="error"] .result-icon {
+  background: var(--red-pale);
+  color: var(--red);
+}
+
+.result[data-classification="impersonation"] .result-icon,
+.result[data-classification="unknown"] .result-icon {
+  background: var(--amber-pale);
+  color: var(--amber);
+}
+
+.result-kicker {
+  margin: 0 0 0.15rem;
+  color: var(--green);
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.result h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.result-explanation {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.domain-detail {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.domain-detail div {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 0.6rem;
+}
+
+.domain-detail dt {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.domain-detail dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+.reason-list {
+  margin: 0.8rem 0 0;
+  padding-left: 1.05rem;
+  color: var(--red);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.form-error {
+  margin: 0.6rem 0 0;
+  color: var(--red);
+  font-size: 0.82rem;
+}
+
+.privacy-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.privacy-note span {
+  color: var(--green);
+}
+
+button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 5px;
+  background: var(--green);
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--green-dark);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+button.secondary {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--green);
+}
+
+button.secondary:hover {
+  background: #eef2ea;
+}
+
+input {
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 0.7rem;
+  border: 1px solid #cfd8d0;
+  border-radius: 5px;
+  outline: none;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+input:focus-visible {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(20, 107, 80, 0.14);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

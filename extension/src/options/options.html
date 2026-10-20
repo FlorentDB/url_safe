@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f5ef">
+    <title>Lien clair | Options</title>
+    <link rel="stylesheet" href="../shared/theme.css">
+    <link rel="stylesheet" href="options.css">
+    <script src="options.js" type="module"></script>
+  </head>
+  <body>
+    <header class="page-header">
+      <span class="wordmark">
+        <span class="wordmark-mark" aria-hidden="true">↗</span>
+        <span>lien clair</span>
+      </span>
+      <span class="page-note">Options de l’extension</span>
+    </header>
+
+    <main>
+      <section class="panel" aria-labelledby="privacy-title">
+        <h2 id="privacy-title">Vie privée</h2>
+        <p class="panel-copy">
+          Lien clair n’envoie rien. L’adresse que vous vérifiez est analysée
+          dans votre navigateur, elle n’est ni transmise, ni écrite dans un
+          historique, ni consultée par qui que ce soit. L’extension ne
+          demande aucune permission de navigation.
+        </p>
+        <p class="panel-copy">
+          <a id="privacy-policy-link" href="../confidentialite.html" target="_blank" rel="noreferrer noopener">Politique de confidentialité</a>
+          <span class="separator" aria-hidden="true">/</span>
+          <a id="homepage-link" href="#" target="_blank" rel="noreferrer noopener">Site web</a>
+        </p>
+      </section>
+
+      <section class="panel" aria-labelledby="data-title">
+        <h2 id="data-title">Données locales</h2>
+        <p class="panel-copy">
+          Les listes de domaines, de marques, de caractères confondables et de
+          suffixes publics sont installées avec l’extension. Elles servent
+          uniquement sur votre appareil.
+        </p>
+        <dl class="status-list">
+          <div>
+            <dt>Origine</dt>
+            <dd id="dataset-origin">Inconnue</dd>
+          </div>
+          <div>
+            <dt>Dernière mise à jour</dt>
+            <dd id="dataset-updated">Inconnue</dd>
+          </div>
+        </dl>
+        <button id="discard-button" class="secondary" type="button" hidden>
+          Revenir aux données installées
+        </button>
+      </section>
+
+      <section class="panel" aria-labelledby="refresh-title">
+        <h2 id="refresh-title">Actualiser les listes</h2>
+        <p class="panel-copy">
+          facultatif. Par défaut l’extension ne joint aucun serveur. Vous
+          pouvez désigner un hôte qui publie les mêmes fichiers&nbsp;;
+          l’actualisation télécharge alors des fichiers identiques pour tout
+          le monde, ce qui ne révèle pas les liens que vous vérifiez.
+        </p>
+        <div class="field-row">
+          <label class="visually-hidden" for="dataset-url">Adresse des données</label>
+          <input
+            id="dataset-url"
+            type="url"
+            inputmode="url"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="https://exemple.org/lien-clair/v1"
+          >
+          <button id="refresh-button" type="button">Actualiser</button>
+        </div>
+        <label class="checkbox-row">
+          <input id="auto-refresh" type="checkbox">
+          <span>Actualiser automatiquement une fois par jour</span>
+        </label>
+        <p id="refresh-error" class="form-error" role="alert" hidden></p>
+        <p id="refresh-status" class="panel-status" role="status" hidden></p>
+      </section>
+    </main>
+
+    <footer>
+      <span>LIEN CLAIR <span class="footer-separator">/</span> EXTENSION</span>
+      <span>Analyse sans navigation</span>
+    </footer>
+  </body>
+</html>

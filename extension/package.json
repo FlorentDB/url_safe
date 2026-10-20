@@ -1,0 +1,18 @@
+{
+  "name": "lien-clair-extension",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Extension Lien clair : vérification de liens sans les ouvrir, entièrement locale.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "build": "node scripts/build.mjs",
+    "build:release": "node scripts/build.mjs --release",
+    "icons": "python3 scripts/make-icons.py",
+    "data": "cd .. && python3 -m app.export_datasets",
+    "smoke": "node scripts/smoke-test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,69 @@
+/* The popup of the extension. */
+
+body {
+  width: 380px;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 88% 4%, rgba(217, 243, 106, 0.3), transparent 16rem),
+    var(--paper);
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem 0;
+}
+
+main {
+  padding: 0.9rem 1.1rem 0;
+}
+
+.check-form {
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 10px 26px rgba(23, 43, 37, 0.05);
+}
+
+.check-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-row input {
+  flex: 1;
+}
+
+.popup-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.7rem 1.1rem 0.9rem;
+}
+
+.link-button {
+  min-height: 0;
+  padding: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.link-button:hover {
+  background: none;
+  color: var(--green);
+}
+
+#result {
+  margin-top: 0.8rem;
+}

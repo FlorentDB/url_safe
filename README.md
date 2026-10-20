@@ -44,6 +44,36 @@ Le rang Tranco est un signal de popularité uniquement; il ne rend pas un domain
 
 Utiliser `--limit 100000` pour importer un Top 100 000. L’import récupère l’identifiant du snapshot puis son ZIP depuis `tranco-list.eu`, et conserve l’identifiant, le rang et la date d’import dans SQLite. Chaque import remplace le snapshot courant tout en conservant les anciens snapshots pour reproduire les résultats. Vérifier les conditions de licence des données agrégées avant une redistribution ou un usage commercial.
 
+## L’extension navigateur
+
+L’extension reprend les mêmes règles en JavaScript et vérifie **entièrement sur l’appareil**. Elle n’interroge aucun serveur, n’insère aucun script dans les pages et ne lit pas l’historique de navigation.
+
+Deux entrées, toutes deux déclenchées volontairement :
+
+- l’icône de la barre d’outils ouvre une fenêtre où l’on colle une adresse ;
+- un clic droit sur un lien propose « Vérifier avec Lien clair », et le verdict s’ouvre dans un onglet.
+
+Les listes de domaines, de marques, de caractères confondables et de suffixes publics sont installées avec l’extension. Elles peuvent être actualisées depuis la page d’options, ce qui demande alors l’autorisation pour cet hôte seul ; tant que cette fonction n’est pas utilisée, l’extension ne joint aucun serveur.
+
+### Construire
+
+```bash
+cd extension
+npm test          # les suites JavaScript
+npm run build     # extension/dist/lien-clair-1.0.0-chrome.zip et -firefox.zip
+```
+
+Pour installer une version locale, décompresser l’archive puis charger le dossier `manifest.json` depuis la page des extensions du navigateur.
+
+### Faire évoluer les règles
+
+Les règles existent en double, en Python dans `app/` et en JavaScript dans `extension/src/core/`. Les deux versions sont tenues synchronisées par un fichier de vecteurs de test commun, `shared/vectors/verdicts.json` : changer une règle d’un côté sans l’autre fait échouer la suite de l’autre côté.
+
+```bash
+.venv/bin/python -m app.export_vectors   # régénérer les vecteurs, puis relire le diff
+.venv/bin/python -m app.export_datasets  # réexporter les listes pour l’extension
+```
+
 ## Limites
 
 « Domaine répertorié » signifie uniquement qu’une entrée correspond dans la base locale. « Aucun signal local » ne signifie pas que le lien est sûr. La base fournie ne contient aucune liste de menaces; elle doit être alimentée depuis des sources fiables et actualisées avant tout usage réel.

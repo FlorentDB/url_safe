@@ -186,3 +186,33 @@ def test_rate_limits_api_requests_per_client(tmp_path, monkeypatch) -> None:
     assert first.status_code == 200
     assert second.status_code == 200
     assert third.status_code == 429
+
+
+def test_privacy_policy_page_is_served(tmp_path) -> None:
+    with TestClient(create_app(tmp_path / "test.sqlite3")) as client:
+        response = client.get("/confidentialite")
+
+    assert response.status_code == 200
+    assert "Politique de confidentialité" in response.text
+    # The page has to state what the extension does not collect, because the
+    # stores read it before they review the package.
+    assert "ne collecte aucune donnée personnelle" in response.text
+    assert "n’a pas accès à votre historique" in response.text
+
+
+def test_extension_page_is_served_and_links_the_stores(tmp_path) -> None:
+    with TestClient(create_app(tmp_path / "test.sqlite3")) as client:
+        response = client.get("/extension")
+
+    assert response.status_code == 200
+    assert "chromewebstore.google.com" in response.text
+    assert "addons.mozilla.org" in response.text
+    assert "/confidentialite" in response.text
+
+
+def test_homepage_links_to_the_extension_and_the_policy(tmp_path) -> None:
+    with TestClient(create_app(tmp_path / "test.sqlite3")) as client:
+        response = client.get("/")
+
+    assert 'href="/extension"' in response.text
+    assert 'href="/confidentialite"' in response.text

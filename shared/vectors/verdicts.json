@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "brands": [
+    {
+      "brand_name": "Microsoft",
+      "hostname": "microsoft.com",
+      "source": "Shared vector fixture"
+    },
+    {
+      "brand_name": "Google",
+      "hostname": "google.com",
+      "source": "Shared vector fixture"
+    },
+    {
+      "brand_name": "PayPal",
+      "hostname": "paypal.com",
+      "source": "Shared vector fixture"
+    }
+  ],
+  "domains": [
+    {
+      "hostname": "example.com",
+      "status": "known",
+      "source": "Shared vector fixture"
+    },
+    {
+      "hostname": "malicious.example",
+      "status": "malicious",
+      "source": "Shared vector fixture"
+    }
+  ],
+  "cases": [
+    {
+      "url": "https://example.com",
+      "hostname": "example.com",
+      "canonical_hostname": "example.com",
+      "reasons": [],
+      "record": {
+        "hostname": "example.com",
+        "status": "known",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "known",
+        "title": "Domaine répertorié",
+        "explanation": "Ce domaine est dans la liste locale, ce qui ne garantit pas que cette page ou ce lien soit sûr.",
+        "reasons": [],
+        "source": "Shared vector fixture",
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://malicious.example/path",
+      "hostname": "malicious.example",
+      "canonical_hostname": "malicious.example",
+      "reasons": [],
+      "record": {
+        "hostname": "malicious.example",
+        "status": "malicious",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "suspicious",
+        "title": "Domaine signalé",
+        "explanation": "Une source de référence locale signale ce domaine. N’ouvre pas ce lien.",
+        "reasons": [
+          "Signalé par : Shared vector fixture."
+        ],
+        "source": "Shared vector fixture",
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://not-a-brand.example",
+      "hostname": "not-a-brand.example",
+      "canonical_hostname": "not-a-brand.example",
+      "reasons": [],
+      "record": null,
+      "brand_match": null,
+      "verdict": {
+        "classification": "unknown",
+        "title": "Aucun signal local",
+        "explanation": "Aucune correspondance dans la base locale. Ce résultat ne certifie pas la sécurité du lien.",
+        "reasons": [],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://microsoft.com",
+      "hostname": "microsoft.com",
+      "canonical_hostname": "microsoft.com",
+      "reasons": [],
+      "record": null,
+      "brand_match": {
+        "brand_name": "Microsoft",
+        "official_hostname": "microsoft.com",
+        "source": "Shared vector fixture",
+        "match_type": "official",
+        "distance": 0
+      },
+      "verdict": {
+        "classification": "known",
+        "title": "Domaine répertorié pour Microsoft",
+        "explanation": "Le domaine correspond au registre local de la marque; cela ne garantit pas que chaque page soit sûre.",
+        "reasons": [],
+        "source": "Shared vector fixture",
+        "matched_brand": "Microsoft",
+        "official_domain": "microsoft.com"
+      }
+    },
+    {
+      "url": "https://rmicrosoft.com",
+      "hostname": "rmicrosoft.com",
+      "canonical_hostname": "rmicrosoft.com",
+      "reasons": [],
+      "record": null,
+      "brand_match": {
+        "brand_name": "Microsoft",
+        "official_hostname": "microsoft.com",
+        "source": "Shared vector fixture",
+        "match_type": "lookalike",
+        "distance": 1
+      },
+      "verdict": {
+        "classification": "impersonation",
+        "title": "Ressemble à Microsoft",
+        "explanation": "Le nom de domaine diffère d’un caractère de microsoft.com. Cela peut être une imitation, mais ce signal ne prouve pas une fraude.",
+        "reasons": [
+          "Ressemblance avec le domaine officiel microsoft.com."
+        ],
+        "source": "Shared vector fixture",
+        "matched_brand": "Microsoft",
+        "official_domain": "microsoft.com"
+      }
+    },
+    {
+      "url": "https://microsoft.com.attacker.example",
+      "hostname": "microsoft.com.attacker.example",
+      "canonical_hostname": "microsoft.com.attacker.example",
+      "reasons": [],
+      "record": null,
+      "brand_match": {
+        "brand_name": "Microsoft",
+        "official_hostname": "microsoft.com",
+        "source": "Shared vector fixture",
+        "match_type": "nested_brand_domain",
+        "distance": 0
+      },
+      "verdict": {
+        "classification": "impersonation",
+        "title": "Ressemble à Microsoft",
+        "explanation": "Le domaine officiel microsoft.com apparaît dans une partie secondaire de l’adresse. Cela ne signifie pas que le site appartient à cette marque.",
+        "reasons": [
+          "Un domaine officiel est utilisé comme sous-domaine d’un autre site."
+        ],
+        "source": "Shared vector fixture",
+        "matched_brand": "Microsoft",
+        "official_domain": "microsoft.com"
+      }
+    },
+    {
+      "url": "https://mіcrosoft.com",
+      "hostname": "mіcrosoft.com",
+      "canonical_hostname": "xn--mcrosoft-thh.com",
+      "reasons": [
+        "Le domaine utilise du punycode; vérifie les caractères internationalisés affichés.",
+        "L’étiquette « mіcrosoft » mélange des alphabets et contient des caractères confondables avec le latin."
+      ],
+      "record": null,
+      "brand_match": {
+        "brand_name": "Microsoft",
+        "official_hostname": "microsoft.com",
+        "source": "Shared vector fixture",
+        "match_type": "unicode_lookalike",
+        "distance": 0
+      },
+      "verdict": {
+        "classification": "impersonation",
+        "title": "Ressemble à Microsoft",
+        "explanation": "Des caractères du domaine sont confondables avec ceux de microsoft.com selon les données Unicode. Cela indique une imitation possible, pas une fraude confirmée.",
+        "reasons": [
+          "Le domaine utilise du punycode; vérifie les caractères internationalisés affichés.",
+          "L’étiquette « mіcrosoft » mélange des alphabets et contient des caractères confondables avec le latin.",
+          "Caractères Unicode confondables avec le domaine officiel microsoft.com."
+        ],
+        "source": "Shared vector fixture",
+        "matched_brand": "Microsoft",
+        "official_domain": "microsoft.com"
+      }
+    },
+    {
+      "url": "https://раypal.com",
+      "hostname": "раypal.com",
+      "canonical_hostname": "xn--ypal-43d9g.com",
+      "reasons": [
+        "Le domaine utilise du punycode; vérifie les caractères internationalisés affichés.",
+        "L’étiquette « раypal » mélange des alphabets et contient des caractères confondables avec le latin."
+      ],
+      "record": null,
+      "brand_match": {
+        "brand_name": "PayPal",
+        "official_hostname": "paypal.com",
+        "source": "Shared vector fixture",
+        "match_type": "unicode_lookalike",
+        "distance": 0
+      },
+      "verdict": {
+        "classification": "impersonation",
+        "title": "Ressemble à PayPal",
+        "explanation": "Des caractères du domaine sont confondables avec ceux de paypal.com selon les données Unicode. Cela indique une imitation possible, pas une fraude confirmée.",
+        "reasons": [
+          "Le domaine utilise du punycode; vérifie les caractères internationalisés affichés.",
+          "L’étiquette « раypal » mélange des alphabets et contient des caractères confondables avec le latin.",
+          "Caractères Unicode confondables avec le domaine officiel paypal.com."
+        ],
+        "source": "Shared vector fixture",
+        "matched_brand": "PayPal",
+        "official_domain": "paypal.com"
+      }
+    },
+    {
+      "url": "https://example.com:8443/",
+      "hostname": "example.com",
+      "canonical_hostname": "example.com",
+      "reasons": [
+        "L’adresse utilise un port inhabituel (8443)."
+      ],
+      "record": {
+        "hostname": "example.com",
+        "status": "known",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "suspicious",
+        "title": "À examiner",
+        "explanation": "Des éléments inhabituels ont été repérés. Cela ne prouve pas à lui seul que le lien est malveillant.",
+        "reasons": [
+          "L’adresse utilise un port inhabituel (8443)."
+        ],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://user:secret@example.com/",
+      "hostname": "example.com",
+      "canonical_hostname": "example.com",
+      "reasons": [
+        "L’adresse contient des identifiants avant le nom d’hôte."
+      ],
+      "record": {
+        "hostname": "example.com",
+        "status": "known",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "suspicious",
+        "title": "À examiner",
+        "explanation": "Des éléments inhabituels ont été repérés. Cela ne prouve pas à lui seul que le lien est malveillant.",
+        "reasons": [
+          "L’adresse contient des identifiants avant le nom d’hôte."
+        ],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://example.com/path%0d%0aheader",
+      "hostname": "example.com",
+      "canonical_hostname": "example.com",
+      "reasons": [
+        "Le chemin contient un caractère de contrôle encodé."
+      ],
+      "record": {
+        "hostname": "example.com",
+        "status": "known",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "suspicious",
+        "title": "À examiner",
+        "explanation": "Des éléments inhabituels ont été repérés. Cela ne prouve pas à lui seul que le lien est malveillant.",
+        "reasons": [
+          "Le chemin contient un caractère de contrôle encodé."
+        ],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://example.com/%252e%252e/login",
+      "hostname": "example.com",
+      "canonical_hostname": "example.com",
+      "reasons": [
+        "Le chemin contient une séquence encodée une seconde fois."
+      ],
+      "record": {
+        "hostname": "example.com",
+        "status": "known",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "suspicious",
+        "title": "À examiner",
+        "explanation": "Des éléments inhabituels ont été repérés. Cela ne prouve pas à lui seul que le lien est malveillant.",
+        "reasons": [
+          "Le chemin contient une séquence encodée une seconde fois."
+        ],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://192.168.1.1/",
+      "hostname": "192.168.1.1",
+      "canonical_hostname": "192.168.1.1",
+      "reasons": [
+        "L’adresse utilise une adresse IP plutôt qu’un nom de domaine."
+      ],
+      "record": null,
+      "brand_match": null,
+      "verdict": {
+        "classification": "suspicious",
+        "title": "À examiner",
+        "explanation": "Des éléments inhabituels ont été repérés. Cela ne prouve pas à lui seul que le lien est malveillant.",
+        "reasons": [
+          "L’adresse utilise une adresse IP plutôt qu’un nom de domaine."
+        ],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "http://paypal.com/login",
+      "hostname": "paypal.com",
+      "canonical_hostname": "paypal.com",
+      "reasons": [],
+      "record": null,
+      "brand_match": {
+        "brand_name": "PayPal",
+        "official_hostname": "paypal.com",
+        "source": "Shared vector fixture",
+        "match_type": "official",
+        "distance": 0
+      },
+      "verdict": {
+        "classification": "known",
+        "title": "Domaine répertorié pour PayPal",
+        "explanation": "Le domaine correspond au registre local de la marque; cela ne garantit pas que chaque page soit sûre.",
+        "reasons": [],
+        "source": "Shared vector fixture",
+        "matched_brand": "PayPal",
+        "official_domain": "paypal.com"
+      }
+    },
+    {
+      "url": "example.com/path",
+      "hostname": "example.com",
+      "canonical_hostname": "example.com",
+      "reasons": [],
+      "record": {
+        "hostname": "example.com",
+        "status": "known",
+        "source": "Shared vector fixture"
+      },
+      "brand_match": null,
+      "verdict": {
+        "classification": "known",
+        "title": "Domaine répertorié",
+        "explanation": "Ce domaine est dans la liste locale, ce qui ne garantit pas que cette page ou ce lien soit sûr.",
+        "reasons": [],
+        "source": "Shared vector fixture",
+        "matched_brand": null,
+        "official_domain": null
+      }
+    },
+    {
+      "url": "https://sub.example.com/",
+      "hostname": "sub.example.com",
+      "canonical_hostname": "sub.example.com",
+      "reasons": [],
+      "record": null,
+      "brand_match": null,
+      "verdict": {
+        "classification": "unknown",
+        "title": "Aucun signal local",
+        "explanation": "Aucune correspondance dans la base locale. Ce résultat ne certifie pas la sécurité du lien.",
+        "reasons": [],
+        "source": null,
+        "matched_brand": null,
+        "official_domain": null
+      }
+    }
+  ]
+}

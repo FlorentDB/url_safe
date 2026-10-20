@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "classifications": [
+    "known",
+    "suspicious",
+    "impersonation",
+    "unknown"
+  ],
+  "domains": [
+    {
+      "hostname": "example.com",
+      "status": "known",
+      "source": "Reserved example domain for demo only"
+    },
+    {
+      "hostname": "example.org",
+      "status": "known",
+      "source": "Reserved example domain for demo only"
+    },
+    {
+      "hostname": "github.com",
+      "status": "known",
+      "source": "Curated example domain; not a security validation"
+    },
+    {
+      "hostname": "google.com",
+      "status": "known",
+      "source": "Curated example domain; not a security validation"
+    },
+    {
+      "hostname": "mozilla.org",
+      "status": "known",
+      "source": "Curated example domain; not a security validation"
+    },
+    {
+      "hostname": "wikipedia.org",
+      "status": "known",
+      "source": "Curated example domain; not a security validation"
+    },
+    {
+      "hostname": "youtube.com",
+      "status": "known",
+      "source": "Curated example domain; not a security validation"
+    }
+  ],
+  "brands": [
+    {
+      "brand_name": "GitHub",
+      "hostname": "github.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Google",
+      "hostname": "google.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Microsoft",
+      "hostname": "microsoft.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Mozilla",
+      "hostname": "mozilla.org",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Wikipedia",
+      "hostname": "wikipedia.org",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "YouTube",
+      "hostname": "youtube.com",
+      "source": "Curated prototype registry; verify before production"
+    }
+  ]
+}
