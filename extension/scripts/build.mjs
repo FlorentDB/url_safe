@@ -11,6 +11,7 @@
  *
  *     node extension/scripts/build.mjs             # development packages
  *     node extension/scripts/build.mjs --release   # refuses placeholders
+ *     node extension/scripts/build.mjs --target firefox --release
  *     node extension/scripts/build.mjs --version 1.2.0
  *
  * The archives are written to ``extension/dist``.
@@ -39,17 +40,17 @@ const PRIVACY_POLICY = join(PROJECT_ROOT, "app", "static", "confidentialite.html
  */
 const LOCALES_DIR = join(EXTENSION_ROOT, "_locales");
 
-/** The address used until a real one is known. */
-const PLACEHOLDER = "example.invalid";
+/** Values that must be replaced before a store release. */
+const PLACEHOLDERS = ["example.invalid"];
 
 /**
  * Parse the command line.
  *
- * @returns {{release: boolean, version: string | null}} the options
+ * @returns {{release: boolean, version: string | null, target: string}} the options
  */
 function parseArguments() {
   const arguments_ = process.argv.slice(2);
-  const options = { release: false, version: null };
+  const options = { release: false, version: null, target: "all" };
 
   for (let index = 0; index < arguments_.length; index += 1) {
     const argument = arguments_[index];
@@ -57,6 +58,13 @@ function parseArguments() {
       options.release = true;
     } else if (argument === "--version") {
       options.version = arguments_[index + 1] ?? null;
+      index += 1;
+    } else if (argument === "--target") {
+      const target = arguments_[index + 1] ?? null;
+      if (!["chrome", "firefox", "all"].includes(target)) {
+        throw new Error("--target doit être chrome, firefox ou all.");
+      }
+      options.target = target;
       index += 1;
     } else {
       throw new Error(`Option inconnue : ${argument}`);
@@ -131,7 +139,7 @@ function htmlReferences(html) {
   let match = pattern.exec(html);
   while (match !== null) {
     const value = match[1];
-    if (!value.startsWith("http") && !value.startsWith("#") && !value.startsWith("data:")) {
+    if (!/^[a-z][a-z\d+.-]*:/i.test(value) && !value.startsWith("#")) {
       references.push(value.split("#")[0].split("?")[0]);
     }
     match = pattern.exec(html);
@@ -302,10 +310,15 @@ async function main() {
     return;
   }
 
-  const placeholders = JSON.stringify(manifest).includes(PLACEHOLDER);
-  if (placeholders) {
+  const firefoxManifest = toFirefoxManifest(manifest);
+  const foundPlaceholders = PLACEHOLDERS.filter((placeholder) =>
+    `${JSON.stringify(manifest)}${JSON.stringify(firefoxManifest)}`.includes(
+      placeholder,
+    ),
+  );
+  if (foundPlaceholders.length > 0) {
     const message =
-      `Le manifeste contient encore l’adresse de remplacement « ${PLACEHOLDER} ».`;
+      `Valeur(s) de remplacement à corriger : ${foundPlaceholders.join(", ")}.`;
     if (options.release) {
       console.error(`ERREUR ${message}`);
       process.exitCode = 1;
@@ -318,8 +331,8 @@ async function main() {
 
   const targets = [
     { name: "chrome", manifest },
-    { name: "firefox", manifest: toFirefoxManifest(manifest) },
-  ];
+    { name: "firefox", manifest: firefoxManifest },
+  ].filter((target) => options.target === "all" || target.name === options.target);
 
   for (const target of targets) {
     const directory = join(DIST_DIR, target.name);

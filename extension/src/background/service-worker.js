@@ -37,6 +37,14 @@ const REFRESH_ALARM = "url_safe-refresh";
 /** How often the datasets are refreshed, in minutes. */
 const REFRESH_PERIOD_MINUTES = 1440;
 
+/** Firefox's optional declaration for dataset-download connection metadata. */
+const DATA_COLLECTION_PERMISSION = "technicalAndInteraction";
+
+/** Whether this package uses Firefox's optional data-collection permission. */
+const IS_FIREFOX = Boolean(
+  chrome.runtime.getManifest().browser_specific_settings?.gecko,
+);
+
 /** How long a verdict waits in session storage before it is discarded. */
 const PENDING_LIFETIME_MS = 10 * 60 * 1000;
 
@@ -106,6 +114,13 @@ async function refreshIfConfigured() {
   const current = await readSettings();
   if (!current.datasetBaseUrl || !current.autoRefresh) {
     return;
+  }
+
+  if (IS_FIREFOX) {
+    const permissions = await chrome.permissions.getAll();
+    if (!permissions.data_collection?.includes(DATA_COLLECTION_PERMISSION)) {
+      return;
+    }
   }
 
   const granted = await chrome.permissions.contains({

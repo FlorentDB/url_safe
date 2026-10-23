@@ -1,14 +1,14 @@
 {
   "extensionName": {
-    "message": "url_safe — vérificateur d’URL",
+    "message": "url_safe (Bêta)",
     "description": "The name of the extension, shown in the browser and in the stores."
   },
   "extensionDescription": {
-    "message": "Examinez un lien sans l’ouvrir : domaine, caractères suspects et imitation de marque, entièrement sur votre appareil.",
+    "message": "BÊTA — Analyse certains indices d’URL sur l’appareil. Listes limitées : un résultat sans alerte ne garantit pas la sécurité.",
     "description": "The description of the extension, shown in the stores."
   },
   "actionTitle": {
-    "message": "url_safe — vérifier une adresse",
+    "message": "url_safe (Bêta) — vérifier une adresse",
     "description": "The tooltip of the toolbar button."
   },
   "contextMenuTitle": {

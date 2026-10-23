@@ -16,14 +16,18 @@ import { datasetOrigin, readSettings, writeSettings } from "../shared/settings.j
 
 const datasetUrl = document.querySelector("#dataset-url");
 const refreshButton = document.querySelector("#refresh-button");
+const dataPermissionButton = document.querySelector("#grant-data-permission");
 const discardButton = document.querySelector("#discard-button");
 const autoRefresh = document.querySelector("#auto-refresh");
 const refreshError = document.querySelector("#refresh-error");
 const refreshStatus = document.querySelector("#refresh-status");
 const originCell = document.querySelector("#dataset-origin");
 const updatedCell = document.querySelector("#dataset-updated");
-const privacyPolicyLink = document.querySelector("#privacy-policy-link");
-const homepageLink = document.querySelector("#homepage-link");
+const isFirefox = Boolean(
+  chrome.runtime.getManifest().browser_specific_settings?.gecko,
+);
+const DATA_COLLECTION_PERMISSION = "technicalAndInteraction";
+let hasDataCollectionPermission = false;
 
 /**
  * Show an error under the refresh field.
@@ -77,9 +81,17 @@ function formatDate(value) {
 async function showCurrentState() {
   const settings = await readSettings();
   const cached = await readCachedDatasets();
+  const permissions = isFirefox ? await chrome.permissions.getAll() : null;
+  hasDataCollectionPermission = permissions?.data_collection?.includes(
+    DATA_COLLECTION_PERMISSION,
+  ) ?? false;
 
   datasetUrl.value = settings.datasetBaseUrl ?? "";
   autoRefresh.checked = settings.autoRefresh;
+  dataPermissionButton.hidden = !isFirefox;
+  dataPermissionButton.textContent = hasDataCollectionPermission
+    ? "Retirer l’autorisation de mise à jour"
+    : "Autoriser les requêtes de mise à jour";
 
   if (cached) {
     originCell.textContent = cached.baseUrl ?? "Hôte distant";
@@ -91,6 +103,34 @@ async function showCurrentState() {
     discardButton.hidden = true;
   }
 }
+
+dataPermissionButton.addEventListener("click", async () => {
+  refreshError.hidden = true;
+  refreshStatus.hidden = true;
+
+  if (hasDataCollectionPermission) {
+    await chrome.permissions.remove({
+      data_collection: [DATA_COLLECTION_PERMISSION],
+    });
+    await showCurrentState();
+    showStatus("Autorisation retirée. Les mises à jour automatiques sont désactivées.");
+    return;
+  }
+
+  try {
+    const granted = await chrome.permissions.request({
+      data_collection: [DATA_COLLECTION_PERMISSION],
+    });
+    if (!granted) {
+      showError("Autorisation refusée. Les listes intégrées continueront de fonctionner hors ligne.");
+      return;
+    }
+    await showCurrentState();
+    showStatus("Autorisation accordée. Vous pouvez maintenant configurer un hôte de données.");
+  } catch (error) {
+    showError(error.message ?? "L’autorisation des requêtes de mise à jour a échoué.");
+  }
+});
 
 refreshButton.addEventListener("click", async () => {
   refreshError.hidden = true;
@@ -110,6 +150,14 @@ refreshButton.addEventListener("click", async () => {
   if (!granted) {
     showError("Accès refusé. Les données installées avec l’extension restent utilisées.");
     return;
+  }
+
+  if (isFirefox) {
+    const permissions = await chrome.permissions.getAll();
+    if (!permissions.data_collection?.includes(DATA_COLLECTION_PERMISSION)) {
+      showError("Autorisez d’abord les requêtes de mise à jour. Le serveur pourra voir votre adresse IP.");
+      return;
+    }
   }
 
   refreshButton.disabled = true;
@@ -134,6 +182,11 @@ discardButton.addEventListener("click", async () => {
   if (origin) {
     await chrome.permissions.remove({ origins: [origin] });
   }
+  if (isFirefox) {
+    await chrome.permissions.remove({
+      data_collection: [DATA_COLLECTION_PERMISSION],
+    });
+  }
 
   await showCurrentState();
   showStatus("Les données installées avec l’extension sont de nouveau utilisées.");
@@ -142,16 +195,5 @@ discardButton.addEventListener("click", async () => {
 autoRefresh.addEventListener("change", async () => {
   await writeSettings({ autoRefresh: autoRefresh.checked });
 });
-
-// The privacy policy is shipped with the extension, so it is always
-// reachable, even offline. The website is a second link to the same
-// document, for the readers who want the whole project.
-const homepage = chrome.runtime.getManifest().homepage_url ?? "";
-if (homepage) {
-  homepageLink.href = homepage;
-} else {
-  homepageLink.hidden = true;
-  privacyPolicyLink.nextElementSibling.hidden = true;
-}
 
 showCurrentState();

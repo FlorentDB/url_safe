@@ -60,7 +60,7 @@ Les listes de domaines, de marques, de caractères confondables et de suffixes p
 ```bash
 cd extension
 npm test          # les suites JavaScript
-npm run build     # extension/dist/url_safe-1.0.0-chrome.zip et -firefox.zip
+npm run build     # extension/dist/url_safe-0.1.0-chrome.zip et -firefox.zip
 ```
 
 Pour installer une version locale, décompresser l’archive puis charger le dossier `manifest.json` depuis la page des extensions du navigateur.

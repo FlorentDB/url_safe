@@ -13,7 +13,7 @@
     <header class="page-header">
       <span class="wordmark">
         <span class="wordmark-mark" aria-hidden="true">↗</span>
-        <span>url_safe</span>
+        <span>url_safe <span class="beta-label">Bêta</span></span>
       </span>
       <span class="page-note">Options de l’extension</span>
     </header>
@@ -22,15 +22,17 @@
       <section class="panel" aria-labelledby="privacy-title">
         <h2 id="privacy-title">Vie privée</h2>
         <p class="panel-copy">
-          url_safe n’envoie rien. L’adresse que vous vérifiez est analysée
-          dans votre navigateur, elle n’est ni transmise, ni écrite dans un
-          historique, ni consultée par qui que ce soit. L’extension ne
-          demande aucune permission de navigation.
+          L’adresse que vous vérifiez est analysée dans votre navigateur et
+          n’est pas transmise. Si vous choisissez d’actualiser les listes,
+          votre navigateur contacte le serveur de données que vous indiquez;
+          celui-ci peut recevoir des métadonnées de connexion, comme votre
+          adresse IP. Aucune permission de lecture de pages ou d’historique
+          n’est demandée.
         </p>
         <p class="panel-copy">
           <a id="privacy-policy-link" href="../confidentialite.html" target="_blank" rel="noreferrer noopener">Politique de confidentialité</a>
           <span class="separator" aria-hidden="true">/</span>
-          <a id="homepage-link" href="#" target="_blank" rel="noreferrer noopener">Site web</a>
+          <a href="mailto:warsmox.dev@gmail.com">Contact</a>
         </p>
       </section>
 
@@ -62,8 +64,14 @@
           facultatif. Par défaut l’extension ne joint aucun serveur. Vous
           pouvez désigner un hôte qui publie les mêmes fichiers&nbsp;;
           l’actualisation télécharge alors des fichiers identiques pour tout
-          le monde, ce qui ne révèle pas les liens que vous vérifiez.
+          le monde. Le serveur reçoit une requête et peut voir votre adresse IP,
+          mais jamais les liens que vous vérifiez. Sur Firefox, une autorisation
+          distincte est nécessaire pour ces données techniques et peut être
+          retirée ici.
         </p>
+        <button id="grant-data-permission" class="secondary" type="button" hidden>
+          Autoriser les requêtes de mise à jour
+        </button>
         <div class="field-row">
           <label class="visually-hidden" for="dataset-url">Adresse des données</label>
           <input
@@ -87,7 +95,7 @@
 
     <footer>
       <span>URL_SAFE <span class="footer-separator">/</span> EXTENSION</span>
-      <span>Analyse sans navigation</span>
+      <span>Bêta — résultats indicatifs</span>
     </footer>
   </body>
 </html>

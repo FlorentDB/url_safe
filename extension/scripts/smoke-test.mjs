@@ -33,7 +33,7 @@ const EXTENSION_DIR = join(EXTENSION_ROOT, "dist", "firefox");
 const PORT = 9222;
 
 /** The identifier the extension declares for itself. */
-const ADDON_ID = "url_safe@url_safe.example";
+const ADDON_ID = "url-safe@url-safe.fr";
 
 /**
  * Wait for a condition to become true.

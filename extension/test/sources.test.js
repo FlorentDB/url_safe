@@ -81,3 +81,20 @@ test("no page carries an inline script or an inline event handler", () => {
     assert.ok(!/\son[a-z]+\s*=/i.test(source), page);
   }
 });
+
+test("the options page discloses optional dataset requests", () => {
+  const source = readFileSync(join(SOURCE_DIR, "options", "options.html"), "utf8");
+  assert.match(source, /Par défaut l’extension ne joint aucun serveur/);
+  assert.match(source, /requête et peut voir votre adresse IP/);
+  assert.match(source, /n’est pas transmise/);
+  assert.match(source, /autorisation\s+distincte/);
+});
+
+test("Firefox automatic refresh requires the optional data permission", () => {
+  const source = readFileSync(
+    join(SOURCE_DIR, "background", "service-worker.js"),
+    "utf8",
+  );
+  assert.match(source, /permissions\.getAll\(\)/);
+  assert.match(source, /permissions\.data_collection\?\.includes/);
+});

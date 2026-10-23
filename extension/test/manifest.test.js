@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { test } from "node:test";
 
-import { toFirefoxManifest } from "../scripts/firefox-manifest.mjs";
+import { GECKO_ID, toFirefoxManifest } from "../scripts/firefox-manifest.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
@@ -16,6 +16,7 @@ const MANIFEST = JSON.parse(
 test("the manifest is a third version manifest", () => {
   assert.equal(MANIFEST.manifest_version, 3);
   assert.ok(MANIFEST.version);
+  assert.match(MANIFEST.version, /^0\./);
   assert.ok(MANIFEST.description.length > 10);
 });
 
@@ -91,7 +92,9 @@ test("the Firefox manifest declares that nothing is collected", () => {
   const gecko = toFirefoxManifest(MANIFEST).browser_specific_settings.gecko;
 
   assert.deepEqual(gecko.data_collection_permissions.required, ["none"]);
-  assert.deepEqual(gecko.data_collection_permissions.optional, []);
+  assert.deepEqual(gecko.data_collection_permissions.optional, [
+    "technicalAndInteraction",
+  ]);
   assert.ok(gecko.id);
 });
 
@@ -145,4 +148,41 @@ test("the locale file is complete and in French", () => {
     assert.ok(messages[key], key);
     assert.ok(messages[key].message.length > 0, key);
   }
+});
+
+test("the beta name and description disclose the testing status", () => {
+  const messages = JSON.parse(
+    readFileSync(join(ROOT, "_locales", "fr", "messages.json"), "utf8"),
+  );
+
+  assert.match(messages.extensionName.message, /Bêta/i);
+  assert.match(messages.extensionDescription.message, /BÊTA/i);
+  assert.match(messages.extensionDescription.message, /ne garantit pas la sécurité/i);
+  assert.ok(messages.extensionDescription.message.length <= 132);
+  assert.match(messages.actionTitle.message, /Bêta/i);
+});
+
+test("the popup and result page show the beta coverage warning", () => {
+  for (const page of ["src/popup/popup.html", "src/result/result.html"]) {
+    const source = readFileSync(join(ROOT, page), "utf8");
+    assert.match(source, /Bêta/i, page);
+    assert.match(
+      source,
+      /ne garantit qu’un lien|absence d’alerte ne garantit|ne signifie pas qu’un lien/i,
+      page,
+    );
+  }
+});
+
+test("the Firefox add-on identifier is the chosen stable value", () => {
+  assert.equal(GECKO_ID, "url-safe@url-safe.fr");
+  assert.match(GECKO_ID, /^[a-zA-Z0-9-._]+@[a-zA-Z0-9-._]+$/);
+});
+
+test("Firefox only asks for technical data when optional list refresh is enabled", () => {
+  const source = readFileSync(join(ROOT, "src", "options", "options.js"), "utf8");
+  assert.match(source, /permissions\.request\(\{\s*data_collection:/);
+  assert.match(source, /permissions\.getAll\(\)/);
+  assert.match(source, /if \(isFirefox\)/);
+  assert.match(source, /permissions\.request\(\{ origins: \[origin\] \}\)/);
 });

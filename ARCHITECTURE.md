@@ -121,6 +121,7 @@ The extension has its own commands, run from `extension/`:
 npm test                 # the JavaScript suites
 npm run build            # the Chrome and Firefox packages in extension/dist
 npm run build:release    # the same, refusing to build with placeholder addresses
+npm run build:firefox    # the Firefox beta package only
 npm run icons            # redraw the icons
 npm run data             # re-export the datasets from the local database
 npm run smoke            # install the package in a real Firefox
@@ -276,7 +277,7 @@ Only the *refreshed* datasets are cached in `chrome.storage.local`. Caching the 
 
 ### Chrome and Firefox
 
-One manifest is the source of truth, and it is Chrome-shaped. `extension/scripts/firefox-manifest.mjs` turns it into the Firefox one at build time: `background.service_worker` becomes `background.scripts`, and a `browser_specific_settings.gecko` block is added with the extension identifier, a minimum Firefox version, and `data_collection_permissions` declaring `none`.
+One manifest is the source of truth, and it is Chrome-shaped. `extension/scripts/firefox-manifest.mjs` turns it into the Firefox one at build time: `background.service_worker` becomes `background.scripts`, and a `browser_specific_settings.gecko` block is added with the stable identifier `url-safe@url-safe.fr`, a minimum Firefox version, and `data_collection_permissions` declaring `none` as required and `technicalAndInteraction` as optional. Optional refresh is gated on the user's Firefox data-collection consent as well as the configured HTTPS host permission.
 
 The background context is loaded with a dynamic import rather than a static one. A static import would make the file a module, and Firefox runs background scripts as classic scripts. The dynamic import works in both, and the event listeners are still registered synchronously at the top level, which is what a service worker that can be stopped at any moment requires.
 
@@ -294,7 +295,7 @@ The privacy policy is written once, at `app/static/confidentialite.html`, and co
 
 The checks that were run, and what each one proves:
 
-- **35 JavaScript tests** (`npm test`): the checker against the shared vectors, the manifest against the privacy rules, the renderer against a stand-in for the DOM, the packaged datasets, the syntax of every source file.
+- **41 JavaScript tests** (`npm test`): the checker against the shared vectors, the manifest against the privacy rules, the renderer against a stand-in for the DOM, the packaged datasets, the beta disclosures, and the syntax of every source file.
 - **31 Python tests** (`python -m pytest`): the server, the shared vectors, the exporters.
 - **Mozilla's own linter** (`npx web-ext lint`): zero errors and zero warnings on the Firefox package.
 - **A real Firefox** (`npm run smoke`): the package is installed through the standard command and the extension loads without error.
@@ -306,4 +307,4 @@ What has **not** been verified automatically is that the popup paints the verdic
 - The placeholder address in `extension/manifest.json` must be replaced by the real one, and the store links in `app/static/extension.html` must point at the real listings.
 - The contact address in `app/static/confidentialite.html` must be replaced by a real one, and it must be monitored.
 - The demonstration seed data must be replaced by a maintained feed, exactly as for the website.
-- The placeholder extension identifier `url_safe@url_safe.example` must be replaced by one the project controls, because an identifier that cannot be changed afterwards makes the listing permanent.
+- The Firefox extension uses the proposed stable Gecko identifier `url-safe@url-safe.fr`; AMO must confirm that it is available, and changing it after signing would create a different add-on.

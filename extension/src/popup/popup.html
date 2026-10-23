@@ -11,11 +11,18 @@
     <header class="popup-header">
       <span class="wordmark">
         <span class="wordmark-mark" aria-hidden="true">↗</span>
-        <span>url_safe</span>
+        <span>url_safe <span class="beta-label">Bêta</span></span>
       </span>
     </header>
 
     <main>
+      <aside class="beta-warning" aria-label="Avertissement version bêta">
+        <strong>Version bêta — résultats indicatifs.</strong>
+        La liste intégrée est limitée et ne détecte pas toutes les menaces.
+        L’absence d’alerte ne garantit pas qu’un lien est sûr : vérifiez-le
+        vous-même avant de l’ouvrir.
+      </aside>
+
       <form id="check-form" class="check-form">
         <label for="url-input">Adresse du lien</label>
         <div class="input-row">
@@ -37,7 +44,7 @@
         </div>
         <p id="privacy-note" class="privacy-note">
           <span aria-hidden="true">◉</span>
-          L’adresse est analysée sur votre appareil. Rien n’est envoyé.
+          L’adresse vérifiée est analysée sur votre appareil; elle n’est pas envoyée.
         </p>
       </form>
 

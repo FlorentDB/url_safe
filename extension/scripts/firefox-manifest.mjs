@@ -10,7 +10,7 @@
  */
 
 /** The identifier the extension is signed with on Firefox. */
-export const GECKO_ID = "url_safe@url_safe.example";
+export const GECKO_ID = "url-safe@url-safe.fr";
 
 /** The oldest Firefox the extension is tested on. */
 export const GECKO_MIN_VERSION = "140.0";
@@ -40,7 +40,7 @@ export function toFirefoxManifest(manifest) {
         strict_min_version: GECKO_MIN_VERSION,
         data_collection_permissions: {
           required: ["none"],
-          optional: [],
+          optional: ["technicalAndInteraction"],
         },
       },
       gecko_android: {
