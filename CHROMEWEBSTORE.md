@@ -96,6 +96,7 @@ The current policy is `app/static/confidentialite.html`. It must remain consiste
 | Version | Date | Changes | Status |
 |---------|------|---------|--------|
 | 0.1.0 | 2026-10-20 | Private beta; prominent accuracy and coverage warning | Draft |
+| 0.1.1 | 2026-10-25 | Expanded local registry (10 domains, 215 brands), clearer reason wording with optional technical details, DOM-only rendering | Draft |
 
 ## Chrome status
 
@@ -109,12 +110,12 @@ Chrome publication is paused while the Firefox beta is tested. Do not upload the
 - Publish and verify a public extension privacy-policy URL. The extension's current policy file is included in its package but does not yet have a public URL.
 - Create at least one genuine store screenshot.
 - The proposed Firefox Gecko ID is `url-safe@url-safe.fr`; it is unrelated to the paused Chrome package.
-- The bundled domain data remains a tiny beta seed: 7 known domains, 6 brands, and no malicious-domain entries. The listing and warning must not describe it as comprehensive protection.
+- The bundled domain data remains a curated beta seed: 10 domain records (7 known and 3 malicious demo entries) and 215 brand records. The listing and warning must not describe it as comprehensive protection.
 - Test the final signed packages in Chrome and Firefox, including right-click verification and optional dataset-refresh permission flows.
 
 ## Known Issues / Limitations
 
-- The packaged extension currently contains only 7 domain records, all marked `known`, 6 brand records, and no malicious-domain records.
+- The packaged extension currently contains 10 domain records (7 `known`, 3 `malicious` demonstration entries), 215 brand records. The three malicious entries come from demonstration seeds, not live feeds.
 - The server's separate SQLite database contains a Tranco snapshot of 10,000 popular domains, but that snapshot is not included in the extension's bundled datasets.
 - The bundled `domains.csv` and `brands.csv` are explicitly demonstration data, not maintained threat intelligence.
 - Unicode and URL heuristics are signals, not proof that a link is malicious or safe.

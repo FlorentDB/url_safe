@@ -201,6 +201,45 @@
   line-height: 1.5;
 }
 
+.reason-item {
+  margin: 0.35rem 0;
+}
+
+.reason-simple {
+  display: block;
+}
+
+.reason-toggle {
+  display: inline;
+  min-height: 0;
+  margin-top: 0.35rem;
+  padding: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.reason-toggle:hover {
+  background: none;
+  color: var(--ink);
+}
+
+.reason-details {
+  margin-top: 0.4rem;
+  padding: 0.45rem 0.6rem;
+  border-left: 2px solid var(--line);
+  color: var(--muted);
+}
+
+.tech-line {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
 .form-error {
   margin: 0.6rem 0 0;
   color: var(--red);

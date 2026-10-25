@@ -1,13 +1,13 @@
 # Bêta Firefox de url_safe
 
-La version bêta est destinée à un petit groupe de proches. Elle vérifie les URL localement, mais son registre intégré est minuscule : 7 domaines connus, 6 marques et aucun domaine malveillant répertorié. Ce n’est pas une protection anti-phishing complète. Un résultat sans alerte ne garantit pas qu’un site est sûr.
+La version bêta est destinée à un petit groupe de proches. Elle vérifie les URL localement, mais son registre intégré reste une graine éditoriale : 10 domaines (7 connus et 3 entrées malveillantes de démonstration) et 215 marques. Ce n’est pas une protection anti-phishing complète. Un résultat sans alerte ne garantit pas qu’un site est sûr.
 
 ## Informations de l’extension
 
 - Nom affiché : `url_safe (Bêta)`
 - Éditeur : `warsmox`
 - Contact : `warsmox.dev@gmail.com`
-- Version : `0.1.0`
+- Version : `0.1.1`
 - Identifiant Gecko demandé : `url-safe@url-safe.fr`
 - Distribution recommandée : non répertoriée (AMO signe l’extension sans la publier dans le catalogue)
 
@@ -28,7 +28,7 @@ Le module temporaire disparaît au redémarrage de Firefox. Pour l’essai à lo
 ## Soumettre à AMO en bêta non répertoriée
 
 1. Se connecter au [tableau de bord développeur AMO](https://addons.mozilla.org/developers/). Créer le compte avec une adresse que tu consultes. La soumission doit être faite depuis ton compte; ne partage pas son mot de passe.
-2. Construire le paquet dédié Firefox avec `npm run build:firefox` depuis `extension/`. Le fichier à téléverser est `extension/dist/url_safe-0.1.0-firefox.zip`.
+2. Construire le paquet dédié Firefox avec `npm run build:firefox` depuis `extension/`. Le fichier à téléverser est `extension/dist/url_safe-0.1.1-firefox.zip`.
 3. Dans AMO, créer un nouveau module complémentaire et téléverser ce ZIP.
 4. Choisir la distribution **non répertoriée / self-distribution**. Répondre honnêtement aux questions sur code source, collecte et transmission des données.
 5. Utiliser les textes de fiche ci-dessous. Garder visible le statut bêta et les limites du registre.

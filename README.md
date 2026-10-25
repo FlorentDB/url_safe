@@ -60,7 +60,15 @@ Les listes de domaines, de marques, de caractères confondables et de suffixes p
 ```bash
 cd extension
 npm test          # les suites JavaScript
-npm run build     # extension/dist/url_safe-0.1.0-chrome.zip et -firefox.zip
+npm run build     # extension/dist/url_safe-0.1.1-chrome.zip et -firefox.zip
+```
+
+Pour réimporter les listes (domaines, marques, marques prioritaires), les
+exporter dans `extension/src/data/`, lancer les deux suites puis reconstruire
+le paquet Firefox en une seule commande, depuis la racine du dépôt :
+
+```bash
+bash scripts/update_extension.sh
 ```
 
 Pour installer une version locale, décompresser l’archive puis charger le dossier `manifest.json` depuis la page des extensions du navigateur.

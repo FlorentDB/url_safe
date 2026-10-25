@@ -4,3 +4,7 @@ __pycache__/
 *.py[cod]
 data/*.sqlite3
 extension/dist/
+
+# Release artefacts (signed-ready ZIPs and generated notes). The tracked
+# history lives in CHANGELOG.md at the repository root.
+release/

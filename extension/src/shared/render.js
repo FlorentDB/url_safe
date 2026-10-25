@@ -83,19 +83,22 @@ function isTechnicalReason(reason) {
 }
 
 /**
- * Format technical reason as HTML for expandable details.
+ * Fill a container with one block per non-empty line of a technical reason.
+ *
+ * The lines are written with `textContent`, like every other value of this
+ * module, so a hostile hostname stays text and never becomes markup.
+ *
+ * @param {HTMLElement} container the container to fill
  * @param {string} reason the technical reason
- * @returns {string} HTML content
+ * @returns {void}
  */
-function formatTechnicalReason(reason) {
-  const lines = reason.split("\n").filter(l => l.trim());
-  return lines.map(l => `<div class="tech-line">${escapeHtml(l)}</div>`).join("");
-}
-
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
+function fillTechnicalReason(container, reason) {
+  for (const line of reason.split("\n").filter((part) => part.trim())) {
+    const row = document.createElement("div");
+    row.className = "tech-line";
+    row.textContent = line;
+    container.append(row);
+  }
 }
 
 /**
@@ -166,26 +169,30 @@ export function renderVerdict(root, data) {
       simple.textContent = simplifyReason(reason);
       item.append(simple);
 
-      // Level 2: Expandable technical details
+      // Level 2: the technical wording, collapsed behind a button.
       if (isTechnicalReason(reason)) {
+        const details = document.createElement("div");
+        details.className = "reason-details";
+        details.hidden = true;
+        fillTechnicalReason(details, reason);
+
         const toggle = document.createElement("button");
         toggle.className = "reason-toggle";
         toggle.textContent = "Voir les détails techniques";
         toggle.setAttribute("aria-expanded", "false");
         toggle.setAttribute("type", "button");
-        toggle.addEventListener("click", () => {
-          const expanded = toggle.getAttribute("aria-expanded") === "true";
-          toggle.setAttribute("aria-expanded", !expanded);
-          detailsDiv.hidden = expanded;
-          toggle.textContent = expanded ? "Voir les détails techniques" : "Masquer les détails";
-        });
-        item.append(toggle);
 
-        const detailsDiv = document.createElement("div");
-        detailsDiv.className = "reason-details";
-        detailsDiv.hidden = true;
-        detailsDiv.innerHTML = formatTechnicalReason(reason);
-        item.append(detailsDiv);
+        let expanded = false;
+        toggle.addEventListener("click", () => {
+          expanded = !expanded;
+          toggle.setAttribute("aria-expanded", String(expanded));
+          details.hidden = !expanded;
+          toggle.textContent = expanded
+            ? "Masquer les détails"
+            : "Voir les détails techniques";
+        });
+
+        item.append(toggle, details);
       }
 
       list.append(item);

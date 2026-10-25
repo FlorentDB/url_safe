@@ -31,6 +31,17 @@ class FakeElement {
     this.attributes[name] = value;
   }
 
+  getAttribute(name) {
+    return this.attributes[name] ?? null;
+  }
+
+  /** Listeners are recorded; the tests never dispatch an event. */
+  addEventListener(type, listener) {
+    this.listeners ??= {};
+    this.listeners[type] ??= [];
+    this.listeners[type].push(listener);
+  }
+
   /** The markup is never built, so reading or writing it is a defect. */
   get innerHTML() {
     throw new Error("innerHTML must not be used");
@@ -120,7 +131,21 @@ test("the reasons are listed one by one", () => {
   assert.ok(list);
   assert.equal(list.children.length, 1);
   assert.equal(list.children[0].tagName, "li");
-  assert.equal(list.children[0].textContent, VERDICT.reasons[0]);
+
+  // The simple wording is shown first; the technical wording is kept behind
+  // the toggle, so the two levels are checked separately.
+  const simple = list.children[0].find(
+    (element) => element.className === "reason-simple",
+  );
+  assert.ok(simple);
+  assert.ok(simple.textContent.length > 0);
+
+  const details = list.children[0].find(
+    (element) => element.className === "reason-details",
+  );
+  assert.ok(details);
+  assert.equal(details.hidden, true);
+  assert.ok(details.text.includes(VERDICT.reasons[0]));
 });
 
 test("a row is hidden when there is nothing to show", () => {

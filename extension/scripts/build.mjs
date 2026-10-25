@@ -352,6 +352,29 @@ async function main() {
       "utf8",
     );
 
+    // A release must not carry a placeholder in any packaged file, not only
+    // in the manifest: the privacy policy is copied in, and the pages quote
+    // values of their own.
+    const packagedPlaceholders = [];
+    for (const file of await listFiles(directory)) {
+      const content = await readFile(join(directory, file));
+      for (const placeholder of PLACEHOLDERS) {
+        if (content.includes(Buffer.from(placeholder))) {
+          packagedPlaceholders.push(`${target.name}/${file}`);
+        }
+      }
+    }
+    if (packagedPlaceholders.length > 0) {
+      const message =
+        `Valeur(s) de remplacement dans le paquet : ${packagedPlaceholders.join(", ")}.`;
+      if (options.release) {
+        console.error(`ERREUR ${message}`);
+        process.exitCode = 1;
+        return;
+      }
+      console.warn(`ATTENTION ${message}`);
+    }
+
     const archive = join(
       DIST_DIR,
       `url_safe-${target.manifest.version}-${target.name}.zip`,

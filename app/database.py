@@ -97,21 +97,30 @@ def initialize_database(database_path: Path) -> None:
         connection.execute(
             "CREATE INDEX IF NOT EXISTS tranco_domains_hostname_idx ON tranco_domains(hostname)"
         )
+
+        # Migration: bring an older ``domains`` table up to the current schema.
+        #
+        # SQLite refuses to add a NOT NULL column whose default is not a
+        # constant, so ``last_seen`` and ``first_seen`` are added as nullable
+        # columns and then backfilled from ``updated_at``, which every older
+        # row already has. The indexes are created afterwards, once the
+        # columns they cover exist.
+        columns = [row[1] for row in connection.execute("PRAGMA table_info(domains)").fetchall()]
+        if "confidence" not in columns:
+            connection.execute("ALTER TABLE domains ADD COLUMN confidence REAL NOT NULL DEFAULT 0.5")
+        if "last_seen" not in columns:
+            connection.execute("ALTER TABLE domains ADD COLUMN last_seen TEXT")
+            connection.execute("UPDATE domains SET last_seen = updated_at WHERE last_seen IS NULL")
+        if "first_seen" not in columns:
+            connection.execute("ALTER TABLE domains ADD COLUMN first_seen TEXT")
+            connection.execute("UPDATE domains SET first_seen = updated_at WHERE first_seen IS NULL")
+
         connection.execute(
             "CREATE INDEX IF NOT EXISTS domains_status_idx ON domains(status)"
         )
         connection.execute(
             "CREATE INDEX IF NOT EXISTS domains_last_seen_idx ON domains(last_seen)"
         )
-
-        # Migration: add columns if they don't exist
-        columns = [row[1] for row in connection.execute("PRAGMA table_info(domains)").fetchall()]
-        if "confidence" not in columns:
-            connection.execute("ALTER TABLE domains ADD COLUMN confidence REAL NOT NULL DEFAULT 0.5")
-        if "last_seen" not in columns:
-            connection.execute("ALTER TABLE domains ADD COLUMN last_seen TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP")
-        if "first_seen" not in columns:
-            connection.execute("ALTER TABLE domains ADD COLUMN first_seen TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP")
 
 
 def normalize_domain(domain: str) -> str:

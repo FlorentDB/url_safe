@@ -285,17 +285,23 @@ The background context is loaded with a dynamic import rather than a static one.
 
 `extension/scripts/build.mjs` copies the source tree into `extension/dist/chrome` and `extension/dist/firefox`, writes the two manifests, and produces the two ZIP archives. The archives are written by hand, because the project has no build dependency and a ZIP with deflated entries is a few dozen lines.
 
-The build refuses to produce a package that references a file that does not exist, that points at a missing page, or that still carries the placeholder address. `--release` turns the placeholder into a hard error, so a package cannot reach a store with `example.invalid` in it.
+The build refuses to produce a package that references a file that does not exist, that points at a missing page, or that still carries the placeholder address. The placeholder scan covers every packaged file, not only the manifest, because the privacy policy is copied in from `app/static/` and the pages quote values of their own. `--release` turns the placeholder into a hard error, so a package cannot reach a store with `example.invalid` in it.
 
 The icons are drawn by `extension/scripts/make-icons.py`, which writes the PNGs by hand so that they stay in step with the colours of the website and can be regenerated at any size.
 
 The privacy policy is written once, at `app/static/confidentialite.html`, and copied into the package by the build. It carries its own styles inline, because a link to a stylesheet would not resolve inside the extension, and two copies of the same document would be free to drift apart. The packaged file is byte-identical to the one the website serves.
 
+### Refreshing the bundled data
+
+The extension ships its datasets inside the package, so a data change only reaches users through a rebuild. `scripts/update_extension.sh` performs the whole sequence from the repository root: it imports `data/domains.csv` and `data/brands.csv`, imports the curated `data/brands-priority.yaml`, exports the datasets with `app/export_datasets.py`, runs the Python and JavaScript suites, and writes the Firefox archive with `npm run build:firefox`. Running the individual commands in another order leaves the package with stale data, which is what the script exists to prevent.
+
+The exported `domains.json` carries both registries, `unicode.json` the trimmed confusable tables and `public_suffixes.json` the public rules; all three report `schema_version` 1, which the extension refuses to load when it differs.
+
 ### What has been verified, and what has not
 
 The checks that were run, and what each one proves:
 
-- **41 JavaScript tests** (`npm test`): the checker against the shared vectors, the manifest against the privacy rules, the renderer against a stand-in for the DOM, the packaged datasets, the beta disclosures, and the syntax of every source file.
+- **43 JavaScript tests** (`npm test`): the checker against the shared vectors, the manifest against the privacy rules, the renderer against a stand-in for the DOM, the packaged datasets, the beta disclosures, and the syntax of every source file.
 - **31 Python tests** (`python -m pytest`): the server, the shared vectors, the exporters.
 - **Mozilla's own linter** (`npx web-ext lint`): zero errors and zero warnings on the Firefox package.
 - **A real Firefox** (`npm run smoke`): the package is installed through the standard command and the extension loads without error.
@@ -304,7 +310,7 @@ What has **not** been verified automatically is that the popup paints the verdic
 
 ### What still has to be done before a submission
 
-- The placeholder address in `extension/manifest.json` must be replaced by the real one, and the store links in `app/static/extension.html` must point at the real listings.
-- The contact address in `app/static/confidentialite.html` must be replaced by a real one, and it must be monitored.
-- The demonstration seed data must be replaced by a maintained feed, exactly as for the website.
+- The store links in `app/static/extension.html` must point at the real listings. The manifest no longer carries a placeholder address.
+- The contact address in `app/static/confidentialite.html` is `warsmox.dev@gmail.com`; it must remain monitored.
+- The demonstration seed data (10 domain records, 215 brand records) must be replaced by a maintained feed, exactly as for the website.
 - The Firefox extension uses the proposed stable Gecko identifier `url-safe@url-safe.fr`; AMO must confirm that it is available, and changing it after signing would create a different add-on.

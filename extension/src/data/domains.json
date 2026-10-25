@@ -18,6 +18,11 @@
       "source": "Reserved example domain for demo only"
     },
     {
+      "hostname": "fake-bank-login.xyz",
+      "status": "malicious",
+      "source": "URLhaus demo entry; replace with live feed"
+    },
+    {
       "hostname": "github.com",
       "status": "known",
       "source": "Curated example domain; not a security validation"
@@ -28,9 +33,19 @@
       "source": "Curated example domain; not a security validation"
     },
     {
+      "hostname": "malware-test.net",
+      "status": "malicious",
+      "source": "OpenPhish demo entry; replace with live feed"
+    },
+    {
       "hostname": "mozilla.org",
       "status": "known",
       "source": "Curated example domain; not a security validation"
+    },
+    {
+      "hostname": "phishing-example.com",
+      "status": "malicious",
+      "source": "PhishTank demo entry; replace with live feed"
     },
     {
       "hostname": "wikipedia.org",
@@ -45,19 +60,659 @@
   ],
   "brands": [
     {
+      "brand_name": "1Password",
+      "hostname": "1password.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "1inch",
+      "hostname": "1inch.io",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "2Checkout",
+      "hostname": "2checkout.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "ANTS",
+      "hostname": "ants.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "AWS",
+      "hostname": "aws.amazon.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "Aave",
+      "hostname": "aave.com",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "Adobe",
+      "hostname": "adobe.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Adyen",
+      "hostname": "adyen.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Airtable",
+      "hostname": "airtable.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Amazon",
+      "hostname": "amazon.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Ameli",
+      "hostname": "ameli.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "American Express",
+      "hostname": "americanexpress.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Apache",
+      "hostname": "apache.org",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Apple",
+      "hostname": "apple.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Apple Music",
+      "hostname": "music.apple.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Arbitrum",
+      "hostname": "arbitrum.io",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Arte",
+      "hostname": "arte.tv",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Asana",
+      "hostname": "asana.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Atlassian",
+      "hostname": "atlassian.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Atomic Wallet",
+      "hostname": "atomicwallet.io",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "Axa Banque",
+      "hostname": "axabanque.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Azure",
+      "hostname": "azure.microsoft.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "BNP Paribas",
+      "hostname": "bnpparibas.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "BSC",
+      "hostname": "bnbchain.org",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Bank of America",
+      "hostname": "bankofamerica.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Banque Populaire",
+      "hostname": "banquepopulaire.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Barclays",
+      "hostname": "barclays.co.uk",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Base",
+      "hostname": "base.org",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Binance",
+      "hostname": "binance.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "Bitbucket",
+      "hostname": "bitbucket.org",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Bitcoin",
+      "hostname": "bitcoin.org",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Bitget",
+      "hostname": "bitget.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "Bitwarden",
+      "hostname": "bitwarden.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "BlueWallet",
+      "hostname": "bluewallet.io",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "Bluesky",
+      "hostname": "bsky.app",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Boursorama",
+      "hostname": "boursorama.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Braintree",
+      "hostname": "braintreepayments.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Bunq",
+      "hostname": "bunq.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Bybit",
+      "hostname": "bybit.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "CIC",
+      "hostname": "cic.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "CPAM",
+      "hostname": "assurance-maladie.ameli.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Caf",
+      "hostname": "caf.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Caisse d'Épargne",
+      "hostname": "caisse-epargne.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Canal+",
+      "hostname": "canalplus.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Capital One",
+      "hostname": "capitalone.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Cdiscount",
+      "hostname": "cdiscount.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Chase",
+      "hostname": "chase.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Checkout.com",
+      "hostname": "checkout.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Cisco Umbrella",
+      "hostname": "umbrella.cisco.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Citibank",
+      "hostname": "citibank.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Cloudflare",
+      "hostname": "cloudflare.com",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Cloudflare Registrar",
+      "hostname": "cloudflare.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Cloudflare WARP",
+      "hostname": "cloudflare.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Coinbase",
+      "hostname": "coinbase.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "Confluence",
+      "hostname": "atlassian.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Credit Suisse",
+      "hostname": "credit-suisse.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Crédit Agricole",
+      "hostname": "credit-agricole.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Crédit Coopératif",
+      "hostname": "credit-cooperatif.coop",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Crédit Mutuel",
+      "hostname": "creditmutuel.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Crédit du Nord",
+      "hostname": "creditdunord.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Curve",
+      "hostname": "curve.fi",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "Dashlane",
+      "hostname": "dashlane.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Deezer",
+      "hostname": "deezer.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Deutsche Bank",
+      "hostname": "db.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "DigitalOcean",
+      "hostname": "digitalocean.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "Discord",
+      "hostname": "discord.com",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "Disney+",
+      "hostname": "disneyplus.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Docker",
+      "hostname": "docker.com",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Douane",
+      "hostname": "douane.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Dropbox",
+      "hostname": "dropbox.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Elastic",
+      "hostname": "elastic.co",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Electrum",
+      "hostname": "electrum.org",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "Ethereum",
+      "hostname": "ethereum.org",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Etsy",
+      "hostname": "etsy.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Exodus",
+      "hostname": "exodus.com",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "ExpressVPN",
+      "hostname": "expressvpn.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Facebook",
+      "hostname": "facebook.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Figma",
+      "hostname": "figma.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Fnac",
+      "hostname": "fnac.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Fortuneo",
+      "hostname": "fortuneo.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "France Connect",
+      "hostname": "franceconnect.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "GMX",
+      "hostname": "gmx.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "Gandi",
+      "hostname": "gandi.net",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Gate.io",
+      "hostname": "gate.io",
+      "source": "curated:crypto_exchanges"
+    },
+    {
       "brand_name": "GitHub",
       "hostname": "github.com",
-      "source": "Curated prototype registry; verify before production"
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "GitLab",
+      "hostname": "gitlab.com",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Gmail",
+      "hostname": "gmail.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "GoDaddy",
+      "hostname": "godaddy.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Goldman Sachs",
+      "hostname": "goldmansachs.com",
+      "source": "curated:banking_us_intl"
     },
     {
       "brand_name": "Google",
       "hostname": "google.com",
-      "source": "Curated prototype registry; verify before production"
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Google Cloud",
+      "hostname": "cloud.google.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "Google Domains",
+      "hostname": "domains.google",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "HSBC",
+      "hostname": "hsbc.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "HSBC France",
+      "hostname": "hsbc.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "HTX",
+      "hostname": "htx.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "HashiCorp",
+      "hostname": "hashicorp.com",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Heroku",
+      "hostname": "heroku.com",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Hetzner",
+      "hostname": "hetzner.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "Hover",
+      "hostname": "hover.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "ING",
+      "hostname": "ing.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "IONOS",
+      "hostname": "ionos.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Impôts",
+      "hostname": "impots.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Instagram",
+      "hostname": "instagram.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Intérieur",
+      "hostname": "interieur.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Jira",
+      "hostname": "atlassian.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Jitsi",
+      "hostname": "jitsi.org",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "Justice",
+      "hostname": "justice.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Kraken",
+      "hostname": "kraken.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "KuCoin",
+      "hostname": "kucoin.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "Kubernetes",
+      "hostname": "kubernetes.io",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "La Banque Postale",
+      "hostname": "labanquepostale.fr",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "LastPass",
+      "hostname": "lastpass.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Leboncoin",
+      "hostname": "leboncoin.fr",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Ledger",
+      "hostname": "ledger.com",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "Lido",
+      "hostname": "lido.fi",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "LinkedIn",
+      "hostname": "linkedin.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Linode",
+      "hostname": "linode.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "MEXC",
+      "hostname": "mexc.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "Magento",
+      "hostname": "magento.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Mailfence",
+      "hostname": "mailfence.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "Mastodon",
+      "hostname": "joinmastodon.org",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Medium",
+      "hostname": "medium.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "MetaMask",
+      "hostname": "metamask.io",
+      "source": "curated:crypto_wallets"
     },
     {
       "brand_name": "Microsoft",
       "hostname": "microsoft.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Miro",
+      "hostname": "miro.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Mollie",
+      "hostname": "mollie.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Molotov",
+      "hostname": "molotov.tv",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Monabanq",
+      "hostname": "monabanq.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Monday.com",
+      "hostname": "monday.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "MongoDB",
+      "hostname": "mongodb.com",
       "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Morgan Stanley",
+      "hostname": "morganstanley.com",
+      "source": "curated:banking_us_intl"
     },
     {
       "brand_name": "Mozilla",
@@ -65,14 +720,419 @@
       "source": "Curated prototype registry; verify before production"
     },
     {
+      "brand_name": "Mullvad",
+      "hostname": "mullvad.net",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "MySQL",
+      "hostname": "mysql.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "N26",
+      "hostname": "n26.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Name.com",
+      "hostname": "name.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Namecheap",
+      "hostname": "namecheap.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Netflix",
+      "hostname": "netflix.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Netlify",
+      "hostname": "netlify.app",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Nginx",
+      "hostname": "nginx.org",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "NordVPN",
+      "hostname": "nordvpn.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Notion",
+      "hostname": "notion.so",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "OKX",
+      "hostname": "okx.com",
+      "source": "curated:crypto_exchanges"
+    },
+    {
+      "brand_name": "OVH",
+      "hostname": "ovh.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "OVH",
+      "hostname": "ovhcloud.com",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "OVHcloud",
+      "hostname": "ovhcloud.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "OpenSea",
+      "hostname": "opensea.io",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "Optimism",
+      "hostname": "optimism.io",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Outlook",
+      "hostname": "outlook.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "PNC Bank",
+      "hostname": "pnc.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "PancakeSwap",
+      "hostname": "pancakeswap.finance",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "PayPal",
+      "hostname": "paypal.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "PayPlug",
+      "hostname": "payplug.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Pinterest",
+      "hostname": "pinterest.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Polygon",
+      "hostname": "polygon.technology",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Porkbun",
+      "hostname": "porkbun.com",
+      "source": "curated:dns_registrars"
+    },
+    {
+      "brand_name": "Posteo",
+      "hostname": "posteo.de",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "PostgreSQL",
+      "hostname": "postgresql.org",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "PrestaShop",
+      "hostname": "prestashop.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Prime Video",
+      "hostname": "primevideo.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Proton",
+      "hostname": "proton.me",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "ProtonVPN",
+      "hostname": "protonvpn.com",
+      "source": "curated:security_privacy"
+    },
+    {
+      "brand_name": "Pôle Emploi",
+      "hostname": "pole-emploi.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Quora",
+      "hostname": "quora.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Reddit",
+      "hostname": "reddit.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Redis",
+      "hostname": "redis.io",
+      "source": "Curated prototype registry; verify before production"
+    },
+    {
+      "brand_name": "Revolut",
+      "hostname": "revolut.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Salesforce",
+      "hostname": "salesforce.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Santé",
+      "hostname": "sante.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Scaleway",
+      "hostname": "scaleway.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "Service Public",
+      "hostname": "service-public.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Shopify",
+      "hostname": "shopify.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Signal",
+      "hostname": "signal.org",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "Skype",
+      "hostname": "skype.com",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "Slack",
+      "hostname": "slack.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Snapchat",
+      "hostname": "snapchat.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Société Générale",
+      "hostname": "societegenerale.com",
+      "source": "curated:banking_fr"
+    },
+    {
+      "brand_name": "Solana",
+      "hostname": "solana.com",
+      "source": "curated:crypto_networks"
+    },
+    {
+      "brand_name": "Spotify",
+      "hostname": "spotify.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Square",
+      "hostname": "squareup.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Standard Chartered",
+      "hostname": "sc.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "StartMail",
+      "hostname": "startmail.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "Stripe",
+      "hostname": "stripe.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "Substack",
+      "hostname": "substack.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "SushiSwap",
+      "hostname": "sushi.com",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "Teams",
+      "hostname": "teams.microsoft.com",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "Telegram",
+      "hostname": "telegram.org",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "Threads",
+      "hostname": "threads.net",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "TikTok",
+      "hostname": "tiktok.com",
+      "source": "curated:social_media"
+    },
+    {
+      "brand_name": "Trello",
+      "hostname": "trello.com",
+      "source": "curated:saas_productivity"
+    },
+    {
+      "brand_name": "Trezor",
+      "hostname": "trezor.io",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "Trust Wallet",
+      "hostname": "trustwallet.com",
+      "source": "curated:crypto_wallets"
+    },
+    {
+      "brand_name": "Tutanota",
+      "hostname": "tutanota.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "Twitch",
+      "hostname": "twitch.tv",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Twitter",
+      "hostname": "x.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "UBS",
+      "hostname": "ubs.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "Uniswap",
+      "hostname": "uniswap.org",
+      "source": "curated:crypto_defi"
+    },
+    {
+      "brand_name": "Urssaf",
+      "hostname": "urssaf.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Vercel",
+      "hostname": "vercel.app",
+      "source": "curated:tech_dev"
+    },
+    {
+      "brand_name": "Vinted",
+      "hostname": "vinted.fr",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Vultr",
+      "hostname": "vultr.com",
+      "source": "curated:cloud_infra"
+    },
+    {
+      "brand_name": "Wells Fargo",
+      "hostname": "wellsfargo.com",
+      "source": "curated:banking_us_intl"
+    },
+    {
+      "brand_name": "WhatsApp",
+      "hostname": "whatsapp.com",
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "Whereby",
+      "hostname": "whereby.com",
+      "source": "curated:communication"
+    },
+    {
       "brand_name": "Wikipedia",
       "hostname": "wikipedia.org",
       "source": "Curated prototype registry; verify before production"
     },
     {
+      "brand_name": "Wise",
+      "hostname": "wise.com",
+      "source": "curated:payment_fintech"
+    },
+    {
+      "brand_name": "WooCommerce",
+      "hostname": "woocommerce.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "Yahoo Mail",
+      "hostname": "yahoo.com",
+      "source": "curated:email_providers"
+    },
+    {
       "brand_name": "YouTube",
       "hostname": "youtube.com",
-      "source": "Curated prototype registry; verify before production"
+      "source": "curated:tech_gafam"
+    },
+    {
+      "brand_name": "YouTube Music",
+      "hostname": "music.youtube.com",
+      "source": "curated:streaming_media"
+    },
+    {
+      "brand_name": "Zoom",
+      "hostname": "zoom.us",
+      "source": "curated:communication"
+    },
+    {
+      "brand_name": "eBay",
+      "hostname": "ebay.com",
+      "source": "curated:ecommerce"
+    },
+    {
+      "brand_name": "iCloud Mail",
+      "hostname": "icloud.com",
+      "source": "curated:email_providers"
+    },
+    {
+      "brand_name": "Économie",
+      "hostname": "economie.gouv.fr",
+      "source": "curated:gov_fr"
+    },
+    {
+      "brand_name": "Éducation Nationale",
+      "hostname": "education.gouv.fr",
+      "source": "curated:gov_fr"
     }
   ]
 }
