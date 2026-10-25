@@ -1,10 +1,15 @@
 # url_safe Firefox source for AMO review
 
-This archive contains the source used to build `url_safe` version 0.1.1 for
-Firefox. The JavaScript and HTML are not minified or bundled. The build script
-copies the extension files, copies the privacy policy into the package, and
-converts the source manifest to Firefox's event-page format with its Gecko ID
-and data-collection declarations.
+The complete build instructions are in `AMO-SOURCE-README.md` at the root of
+the source archive. This file stays inside the extension directory so the
+add-on tree documents itself.
+
+In short, from the archive root: install `requirements.txt`, then run
+`bash scripts/update_extension.sh`. The script regenerates the datasets, runs
+both test suites and writes the add-on package with `manifest.json` at its
+root. The JavaScript and HTML are not minified or bundled; the build converts
+the source manifest to Firefox's event-page format with its Gecko ID and
+data-collection declarations.
 
 ## Build requirements
 

@@ -1,0 +1,49 @@
+Source code submission — url_safe 0.1.1
+=======================================
+
+Add-on package:  url_safe-0.1.1-firefox.zip
+Source archive:  url_safe-0.1.1-source.zip
+Full instructions: AMO-SOURCE-README.md at the root of the source archive.
+
+Build environment
+-----------------
+- Python 3.14.8 (3.11 or newer works)
+- Node.js 22.23.1 (20 or newer is required by extension/package.json)
+- npm 10.9.8 (ships with Node.js)
+- No compiler and no native build step.
+- Linux was used; nothing is Linux-specific.
+
+Install and build
+-----------------
+From the extracted source archive root:
+
+  python3 -m venv .venv
+  . .venv/bin/activate
+  python -m pip install --upgrade pip
+  pip install -r requirements.txt        # or requirements-lock.txt for exact versions
+  bash scripts/update_extension.sh
+
+The script imports the CSV/YAML data, exports the bundled datasets, runs the
+Python tests (31) and JavaScript tests (43), builds the add-on and writes:
+
+  release/0.1.1/url_safe-0.1.1-firefox.zip
+  release/0.1.1/firefox-package/
+  release/0.1.1/url_safe-0.1.1-source.zip
+
+manifest.json is at the root of the add-on archive.
+
+Generated files
+---------------
+No JavaScript is transpiled, concatenated, minified or machine-generated.
+The only generated artefacts are data and images, and every generator and input
+is included:
+
+- extension/src/data/domains.json — from data/domains.csv, data/brands.csv and
+  data/brands-priority.yaml via app/export_datasets.py
+- extension/src/data/unicode.json — from confusable-homoglyphs 3.3.1 via
+  app/export_datasets.py
+- extension/src/data/public_suffixes.json — from tldextract 5.4.0 via
+  app/export_datasets.py
+- extension/src/icons/*.png — drawn by extension/scripts/make-icons.py
+
+All other files under extension/ are hand-written source, shipped unmodified.

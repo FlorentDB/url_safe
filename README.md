@@ -71,6 +71,11 @@ le paquet Firefox en une seule commande, depuis la racine du dépôt :
 bash scripts/update_extension.sh
 ```
 
+Le script écrit `release/<version>/` avec deux archives :
+`url_safe-<version>-firefox.zip` (le paquet, `manifest.json` à sa racine) et
+`url_safe-<version>-source.zip` (l’archive source demandée par AMO lorsque des
+fichiers sont générés).
+
 Pour installer une version locale, décompresser l’archive puis charger le dossier `manifest.json` depuis la page des extensions du navigateur.
 
 ### Faire évoluer les règles

@@ -54,7 +54,12 @@ AMO doit porter un numéro strictement supérieur au précédent.
 
 - Version `0.1.1` dans `extension/manifest.json` et `extension/package.json`.
 - Nouveau `scripts/update_extension.sh` : import des CSV et du YAML, export des
-  jeux de données, suites Python et JavaScript, puis build Firefox.
+  jeux de données, suites Python et JavaScript, puis build Firefox. Il publie
+  `release/<version>/` avec `url_safe-<version>-firefox.zip` (`manifest.json`
+  à la racine) et `url_safe-<version>-source.zip` (instructions de build, script,
+  dépendances verrouillées et entrées) pour la revue AMO.
+- `pyyaml` ajouté aux dépendances, et `requirements-lock.txt` fige
+  l’environnement exact utilisé pour le paquet soumis.
 - Documentation alignée sur les nouveaux comptes (10 domaines, 215 marques) et
   sur la version 0.1.1.
 

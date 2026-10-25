@@ -7,3 +7,4 @@ rapidfuzz
 tldextract
 httpx
 pytest
+pyyaml
