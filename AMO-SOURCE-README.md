@@ -1,8 +1,8 @@
-# url_safe — source for AMO review (version 0.1.1)
+# url_safe — source for AMO review
 
-This archive is the complete source of the Firefox add-on `url_safe` version
-**0.1.1**. The submitted add-on is `url_safe-0.1.1-firefox.zip`; this archive
-lets a reviewer rebuild it.
+This archive is the complete source of the Firefox add-on `url_safe`. The
+submitted add-on is `url_safe-<version>-firefox.zip`, where `<version>` is the
+value in `extension/manifest.json`; this archive lets a reviewer rebuild it.
 
 No JavaScript is transpiled, bundled, minified or generated. Every `.js` file
 under `extension/src/` is the exact file that runs in the add-on. The only
@@ -68,15 +68,16 @@ This single script performs every technical step:
 5. runs the JavaScript suite (`npm test` in `extension/`, 43 tests);
 6. builds the Firefox package (`npm run build:firefox`);
 7. writes the release folder, including
-   `release/0.1.1/url_safe-0.1.1-firefox.zip` (add-on, `manifest.json` at its
-   root), `release/0.1.1/firefox-package/` (same files extracted) and
-   `release/0.1.1/url_safe-0.1.1-source.zip` (this archive).
+   `release/<version>/url_safe-<version>-firefox.zip` (add-on,
+   `manifest.json` at its root), `release/<version>/firefox-package/` (same
+   files extracted) and `release/<version>/url_safe-<version>-source.zip`
+   (this archive).
 
 Expected final lines:
 
 ```text
-manifest.json à la racine : OK (43 entrées)
-Paquet AMO : .../release/0.1.1/url_safe-0.1.1-firefox.zip
+manifest.json à la racine : OK
+Paquet AMO : .../release/<version>/url_safe-<version>-firefox.zip
 ```
 
 If `zip` is unavailable the script still works: the re-zip step is pure Python.
@@ -106,8 +107,9 @@ npm test
 npm run build:firefox
 ```
 
-`npm run build:firefox` writes `extension/dist/url_safe-0.1.1-firefox.zip` and
-`extension/dist/firefox/`. That archive already has `manifest.json` at its root.
+`npm run build:firefox` writes `extension/dist/url_safe-<version>-firefox.zip`
+and `extension/dist/firefox/`. That archive already has `manifest.json` at its
+root.
 
 ## 5. Generated data and assets
 
@@ -127,11 +129,12 @@ No build step rewrites JavaScript.
 ## 6. Verify the result
 
 ```sh
-unzip -l release/0.1.1/url_safe-0.1.1-firefox.zip | head
-unzip -p release/0.1.1/url_safe-0.1.1-firefox.zip manifest.json | grep '"version"'
+unzip -l release/<version>/url_safe-<version>-firefox.zip | head
+unzip -p release/<version>/url_safe-<version>-firefox.zip manifest.json | grep '"version"'
 ```
 
-Expected: `manifest.json` is the first entry, and the version is `0.1.1`.
+Expected: `manifest.json` is the first entry, and the version matches
+`extension/manifest.json`.
 
 The archives use a fixed timestamp (2026-01-01 unless `SOURCE_DATE_EPOCH` is
 set), so rerunning the build with the same Python version produces the same

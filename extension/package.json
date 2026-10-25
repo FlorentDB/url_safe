@@ -1,6 +1,6 @@
 {
   "name": "url_safe-extension",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "description": "Extension url_safe : analyse d’URL locale, avec actualisation facultative des listes.",

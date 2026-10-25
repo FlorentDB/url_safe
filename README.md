@@ -76,6 +76,19 @@ Le script écrit `release/<version>/` avec deux archives :
 `url_safe-<version>-source.zip` (l’archive source demandée par AMO lorsque des
 fichiers sont générés).
 
+Il peut aussi changer la version lui-même. Le numéro est alors écrit dans
+`extension/manifest.json` et `extension/package.json` avant le build :
+
+```bash
+bash scripts/update_extension.sh --bump patch    # 0.1.1 -> 0.1.2
+bash scripts/update_extension.sh --bump minor    # 0.1.1 -> 0.2.0
+bash scripts/update_extension.sh --version 0.2.0
+```
+
+Le dossier `release/<nouvelle-version>/` est créé automatiquement. Le README et
+le guide de mise à jour sont repris de la version précédente ; les notes de
+version (`AMO-RELEASE-NOTES.txt`) sont créées à compléter.
+
 Pour installer une version locale, décompresser l’archive puis charger le dossier `manifest.json` depuis la page des extensions du navigateur.
 
 ### Faire évoluer les règles

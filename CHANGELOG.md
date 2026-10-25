@@ -60,6 +60,10 @@ AMO doit porter un numéro strictement supérieur au précédent.
   dépendances verrouillées et entrées) pour la revue AMO.
 - `pyyaml` ajouté aux dépendances, et `requirements-lock.txt` fige
   l’environnement exact utilisé pour le paquet soumis.
+- `scripts/update_extension.sh` accepte `--version X.Y.Z` et
+  `--bump patch|minor|major` : la version est écrite dans le manifeste et
+  `package.json` avant le build, et le dossier `release/<version>/` est créé
+  automatiquement.
 - Documentation alignée sur les nouveaux comptes (10 domaines, 215 marques) et
   sur la version 0.1.1.
 

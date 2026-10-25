@@ -1,8 +1,9 @@
-Source code submission — url_safe 0.1.1
-=======================================
+Source code submission — url_safe
+=================================
 
-Add-on package:  url_safe-0.1.1-firefox.zip
-Source archive:  url_safe-0.1.1-source.zip
+<version> is the value in extension/manifest.json.
+Add-on package:  url_safe-<version>-firefox.zip
+Source archive:  url_safe-<version>-source.zip
 Full instructions: AMO-SOURCE-README.md at the root of the source archive.
 
 Build environment
@@ -26,9 +27,9 @@ From the extracted source archive root:
 The script imports the CSV/YAML data, exports the bundled datasets, runs the
 Python tests (31) and JavaScript tests (43), builds the add-on and writes:
 
-  release/0.1.1/url_safe-0.1.1-firefox.zip
-  release/0.1.1/firefox-package/
-  release/0.1.1/url_safe-0.1.1-source.zip
+  release/<version>/url_safe-<version>-firefox.zip
+  release/<version>/firefox-package/
+  release/<version>/url_safe-<version>-source.zip
 
 manifest.json is at the root of the add-on archive.
 

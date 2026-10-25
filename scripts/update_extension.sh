@@ -17,6 +17,120 @@ set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$ROOT"
 
+usage() {
+  cat <<'USAGE'
+Usage : bash scripts/update_extension.sh [options]
+
+  --version X.Y.Z            fixe la version avant de construire
+  --bump patch|minor|major   incrémente la version courante
+  -h, --help                 affiche cette aide
+
+Sans option, la version de extension/package.json est utilisée. Une version
+demandée est écrite dans extension/manifest.json et extension/package.json.
+USAGE
+}
+
+TARGET_VERSION=""
+BUMP=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --version)
+      [ $# -ge 2 ] || { echo "ERREUR : --version attend X.Y.Z" >&2; exit 2; }
+      TARGET_VERSION="$2"
+      shift 2
+      ;;
+    --version=*)
+      TARGET_VERSION="${1#*=}"
+      shift
+      ;;
+    --bump)
+      [ $# -ge 2 ] || { echo "ERREUR : --bump attend patch, minor ou major" >&2; exit 2; }
+      BUMP="$2"
+      shift 2
+      ;;
+    --bump=*)
+      BUMP="${1#*=}"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "ERREUR : option inconnue : $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
+if [ -n "$TARGET_VERSION" ] && [ -n "$BUMP" ]; then
+  echo "ERREUR : --version et --bump sont exclusifs." >&2
+  exit 2
+fi
+
+CURRENT_VERSION=$(node -p "require('./extension/package.json').version")
+MANIFEST_VERSION=$(node -p "require('./extension/manifest.json').version")
+if [ "$CURRENT_VERSION" != "$MANIFEST_VERSION" ]; then
+  echo "ERREUR : extension/package.json ($CURRENT_VERSION) et extension/manifest.json ($MANIFEST_VERSION) divergent." >&2
+  exit 2
+fi
+
+NEW_VERSION="$CURRENT_VERSION"
+if [ -n "$TARGET_VERSION" ]; then
+  NEW_VERSION="$TARGET_VERSION"
+fi
+if [ -n "$BUMP" ]; then
+  NEW_VERSION=$(python3 - "$CURRENT_VERSION" "$BUMP" <<'PY'
+import sys
+
+version = sys.argv[1]
+part = sys.argv[2]
+pieces = version.split(".")
+if len(pieces) != 3 or not all(piece.isdigit() for piece in pieces):
+    raise SystemExit(f"ERREUR : version invalide : {version}")
+major, minor, patch = (int(piece) for piece in pieces)
+if part == "major":
+    major, minor, patch = major + 1, 0, 0
+elif part == "minor":
+    minor, patch = minor + 1, 0
+elif part == "patch":
+    patch += 1
+else:
+    raise SystemExit("ERREUR : --bump attend patch, minor ou major")
+print(f"{major}.{minor}.{patch}")
+PY
+)
+fi
+
+python3 - "$NEW_VERSION" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+version = sys.argv[1]
+if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+    raise SystemExit(f"ERREUR : version invalide : {version}")
+
+for name in ("extension/manifest.json", "extension/package.json"):
+    path = Path(name)
+    text = path.read_text(encoding="utf-8")
+    updated, count = re.subn(
+        r'("version"\s*:\s*")[^"]+(")',
+        rf"\g<1>{version}\g<2>",
+        text,
+        count=1,
+    )
+    if count != 1:
+        raise SystemExit(f"ERREUR : champ version introuvable dans {name}")
+    path.write_text(updated, encoding="utf-8")
+PY
+
+if [ "$NEW_VERSION" != "$CURRENT_VERSION" ]; then
+  echo "== Version : $CURRENT_VERSION -> $NEW_VERSION =="
+else
+  echo "== Version : $NEW_VERSION =="
+fi
+
 echo "== Import des domaines =="
 python3 -m app.import_domains data/domains.csv
 
@@ -201,6 +315,35 @@ cp "$ROOT/AMO-SOURCE-README.md" "$RELEASE_DIR/AMO-SOURCE-README.md"
 cp "$ROOT/AMO-SOURCE-REVIEW-NOTES.txt" "$RELEASE_DIR/AMO-SOURCE-REVIEW-NOTES.txt"
 cp "$ROOT/CHANGELOG.md" "$RELEASE_DIR/CHANGELOG.md"
 cp "$ROOT/FIREFOX-BETA.md" "$RELEASE_DIR/LISTING-FR.md"
+
+# The folder README and the update guide are version-independent, but they are
+# written for one release folder. A new version reuses the previous copies
+# with the version string replaced.
+PREVIOUS_RELEASE="$ROOT/release/$CURRENT_VERSION"
+if [ -d "$PREVIOUS_RELEASE" ] && [ "$PREVIOUS_RELEASE" != "$RELEASE_DIR" ]; then
+  for name in README.txt AMO-UPDATE-GUIDE.md; do
+    if [ -f "$PREVIOUS_RELEASE/$name" ]; then
+      python3 - "$PREVIOUS_RELEASE/$name" "$RELEASE_DIR/$name" "$CURRENT_VERSION" "$NEW_VERSION" <<'PY'
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text(encoding="utf-8")
+text = text.replace(sys.argv[3], sys.argv[4])
+Path(sys.argv[2]).write_text(text, encoding="utf-8")
+PY
+    fi
+  done
+fi
+
+# Release notes describe the changes of one version and cannot be inherited.
+if [ ! -f "$RELEASE_DIR/AMO-RELEASE-NOTES.txt" ]; then
+  {
+    echo "url_safe $NEW_VERSION"
+    echo
+    echo "• Décrivez ici les changements de cette version, visibles par les utilisateurs."
+  } > "$RELEASE_DIR/AMO-RELEASE-NOTES.txt"
+  echo "ATTENTION : complétez $RELEASE_DIR/AMO-RELEASE-NOTES.txt"
+fi
 
 python3 - "$RELEASE_DIR" <<'PY'
 import hashlib
