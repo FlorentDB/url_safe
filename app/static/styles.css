@@ -224,6 +224,24 @@ button:disabled { opacity: 0.7; cursor: wait; }
 .domain-detail dd { min-width: 0; margin: 0; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.8rem; }
 .reason-list { margin: 0.9rem 0 0; padding-left: 1.1rem; color: var(--red); font-size: 0.82rem; line-height: 1.55; }
 
+.reason-item { position: relative; padding: 0.35rem 0; }
+  .reason-simple { display: block; margin-bottom: 0.35rem; font-weight: 500; }
+  .reason-toggle {
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--green);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+  .reason-toggle:hover { background: #e5f2e8; border-color: var(--green); }
+  .reason-toggle:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+  .reason-details { margin-top: 0.5rem; padding: 0.65rem; border: 1px solid var(--line); border-radius: 4px; background: rgba(236, 242, 232, 0.5); font-size: 0.75rem; line-height: 1.6; color: var(--ink); }
+  .tech-line { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; margin: 0.2rem 0; }
 .bottom-note {
   display: flex;
   align-items: flex-start;

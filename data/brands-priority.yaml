@@ -1,0 +1,261 @@
+# Marques prioritaires pour la détection d'usurpation (phishing)
+# Format: liste par catégorie, chaque entrée = {brand: "Nom affiché", domain: "domaine officiel"}
+# Utilisé par import_brands_from_yaml.py pour peupler brand_domains
+
+categories:
+  banking_fr:
+    - {brand: "BNP Paribas", domain: "bnpparibas.com"}
+    - {brand: "Société Générale", domain: "societegenerale.com"}
+    - {brand: "Crédit Agricole", domain: "credit-agricole.fr"}
+    - {brand: "La Banque Postale", domain: "labanquepostale.fr"}
+    - {brand: "Caisse d'Épargne", domain: "caisse-epargne.fr"}
+    - {brand: "Crédit Mutuel", domain: "creditmutuel.fr"}
+    - {brand: "Boursorama", domain: "boursorama.com"}
+    - {brand: "Fortuneo", domain: "fortuneo.fr"}
+    - {brand: "ING", domain: "ing.fr"}
+    - {brand: "Monabanq", domain: "monabanq.com"}
+    - {brand: "Bunq", domain: "bunq.com"}
+    - {brand: "Revolut", domain: "revolut.com"}
+    - {brand: "N26", domain: "n26.com"}
+    - {brand: "Wise", domain: "wise.com"}
+    - {brand: "HSBC France", domain: "hsbc.fr"}
+    - {brand: "Crédit du Nord", domain: "creditdunord.fr"}
+    - {brand: "CIC", domain: "cic.fr"}
+    - {brand: "Banque Populaire", domain: "banquepopulaire.fr"}
+    - {brand: "Crédit Coopératif", domain: "credit-cooperatif.coop"}
+    - {brand: "Axa Banque", domain: "axabanque.fr"}
+
+  banking_us_intl:
+    - {brand: "Bank of America", domain: "bankofamerica.com"}
+    - {brand: "Chase", domain: "chase.com"}
+    - {brand: "Wells Fargo", domain: "wellsfargo.com"}
+    - {brand: "Citibank", domain: "citibank.com"}
+    - {brand: "HSBC", domain: "hsbc.com"}
+    - {brand: "Barclays", domain: "barclays.co.uk"}
+    - {brand: "Standard Chartered", domain: "sc.com"}
+    - {brand: "Deutsche Bank", domain: "db.com"}
+    - {brand: "UBS", domain: "ubs.com"}
+    - {brand: "Credit Suisse", domain: "credit-suisse.com"}
+    - {brand: "Goldman Sachs", domain: "goldmansachs.com"}
+    - {brand: "Morgan Stanley", domain: "morganstanley.com"}
+    - {brand: "American Express", domain: "americanexpress.com"}
+    - {brand: "Capital One", domain: "capitalone.com"}
+    - {brand: "PNC Bank", domain: "pnc.com"}
+
+  crypto_exchanges:
+    - {brand: "Coinbase", domain: "coinbase.com"}
+    - {brand: "Binance", domain: "binance.com"}
+    - {brand: "Kraken", domain: "kraken.com"}
+    - {brand: "KuCoin", domain: "kucoin.com"}
+    - {brand: "Bybit", domain: "bybit.com"}
+    - {brand: "OKX", domain: "okx.com"}
+    - {brand: "Bitget", domain: "bitget.com"}
+    - {brand: "HTX", domain: "htx.com"}
+    - {brand: "Gate.io", domain: "gate.io"}
+    - {brand: "MEXC", domain: "mexc.com"}
+
+  crypto_wallets:
+    - {brand: "Ledger", domain: "ledger.com"}
+    - {brand: "Trezor", domain: "trezor.io"}
+    - {brand: "MetaMask", domain: "metamask.io"}
+    - {brand: "Trust Wallet", domain: "trustwallet.com"}
+    - {brand: "Exodus", domain: "exodus.com"}
+    - {brand: "Atomic Wallet", domain: "atomicwallet.io"}
+    - {brand: "Electrum", domain: "electrum.org"}
+    - {brand: "BlueWallet", domain: "bluewallet.io"}
+
+  crypto_defi:
+    - {brand: "Uniswap", domain: "uniswap.org"}
+    - {brand: "OpenSea", domain: "opensea.io"}
+    - {brand: "Aave", domain: "aave.com"}
+    - {brand: "Curve", domain: "curve.fi"}
+    - {brand: "PancakeSwap", domain: "pancakeswap.finance"}
+    - {brand: "SushiSwap", domain: "sushi.com"}
+    - {brand: "1inch", domain: "1inch.io"}
+    - {brand: "Lido", domain: "lido.fi"}
+
+  crypto_networks:
+    - {brand: "Ethereum", domain: "ethereum.org"}
+    - {brand: "Bitcoin", domain: "bitcoin.org"}
+    - {brand: "Solana", domain: "solana.com"}
+    - {brand: "Polygon", domain: "polygon.technology"}
+    - {brand: "Arbitrum", domain: "arbitrum.io"}
+    - {brand: "Optimism", domain: "optimism.io"}
+    - {brand: "Base", domain: "base.org"}
+    - {brand: "BSC", domain: "bnbchain.org"}
+
+  gov_fr:
+    - {brand: "Service Public", domain: "service-public.fr"}
+    - {brand: "Impôts", domain: "impots.gouv.fr"}
+    - {brand: "Ameli", domain: "ameli.fr"}
+    - {brand: "Pôle Emploi", domain: "pole-emploi.fr"}
+    - {brand: "France Connect", domain: "franceconnect.gouv.fr"}
+    - {brand: "ANTS", domain: "ants.gouv.fr"}
+    - {brand: "Caf", domain: "caf.fr"}
+    - {brand: "CPAM", domain: "assurance-maladie.ameli.fr"}
+    - {brand: "Urssaf", domain: "urssaf.fr"}
+    - {brand: "Douane", domain: "douane.gouv.fr"}
+    - {brand: "Éducation Nationale", domain: "education.gouv.fr"}
+    - {brand: "Justice", domain: "justice.gouv.fr"}
+    - {brand: "Intérieur", domain: "interieur.gouv.fr"}
+    - {brand: "Économie", domain: "economie.gouv.fr"}
+    - {brand: "Santé", domain: "sante.gouv.fr"}
+
+  email_providers:
+    - {brand: "Proton", domain: "proton.me"}
+    - {brand: "Tutanota", domain: "tutanota.com"}
+    - {brand: "Gmail", domain: "gmail.com"}
+    - {brand: "Outlook", domain: "outlook.com"}
+    - {brand: "Yahoo Mail", domain: "yahoo.com"}
+    - {brand: "iCloud Mail", domain: "icloud.com"}
+    - {brand: "GMX", domain: "gmx.com"}
+    - {brand: "Mailfence", domain: "mailfence.com"}
+    - {brand: "StartMail", domain: "startmail.com"}
+    - {brand: "Posteo", domain: "posteo.de"}
+
+  tech_gafam:
+    - {brand: "Microsoft", domain: "microsoft.com"}
+    - {brand: "Google", domain: "google.com"}
+    - {brand: "Apple", domain: "apple.com"}
+    - {brand: "Amazon", domain: "amazon.com"}
+    - {brand: "Facebook", domain: "facebook.com"}
+    - {brand: "Instagram", domain: "instagram.com"}
+    - {brand: "WhatsApp", domain: "whatsapp.com"}
+    - {brand: "Twitter", domain: "x.com"}
+    - {brand: "LinkedIn", domain: "linkedin.com"}
+    - {brand: "Netflix", domain: "netflix.com"}
+    - {brand: "YouTube", domain: "youtube.com"}
+tech_gafam:
+    - {brand: "Microsoft", domain: "microsoft.com"}
+    - {brand: "Google", domain: "google.com"}
+    - {brand: "Apple", domain: "apple.com"}
+    - {brand: "Amazon", domain: "amazon.com"}
+    - {brand: "Facebook", domain: "facebook.com"}
+    - {brand: "Instagram", domain: "instagram.com"}
+    - {brand: "WhatsApp", domain: "whatsapp.com"}
+    - {brand: "Twitter", domain: "x.com"}
+    - {brand: "LinkedIn", domain: "linkedin.com"}
+    - {brand: "Netflix", domain: "netflix.com"}
+    - {brand: "YouTube", domain: "youtube.com"}
+
+  tech_dev:
+    - {brand: "GitHub", domain: "github.com"}
+    - {brand: "GitLab", domain: "gitlab.com"}
+    - {brand: "Bitbucket", domain: "bitbucket.org"}
+    - {brand: "Docker", domain: "docker.com"}
+    - {brand: "Kubernetes", domain: "kubernetes.io"}
+    - {brand: "HashiCorp", domain: "hashicorp.com"}
+    - {brand: "Vercel", domain: "vercel.app"}
+    - {brand: "Netlify", domain: "netlify.app"}
+    - {brand: "Heroku", domain: "heroku.com"}
+    - {brand: "Cloudflare", domain: "cloudflare.com"}
+
+  cloud_infra:
+    - {brand: "AWS", domain: "aws.amazon.com"}
+    - {brand: "Azure", domain: "azure.microsoft.com"}
+    - {brand: "Google Cloud", domain: "cloud.google.com"}
+    - {brand: "DigitalOcean", domain: "digitalocean.com"}
+    - {brand: "Linode", domain: "linode.com"}
+    - {brand: "Vultr", domain: "vultr.com"}
+    - {brand: "OVHcloud", domain: "ovhcloud.com"}
+    - {brand: "Scaleway", domain: "scaleway.com"}
+    - {brand: "Hetzner", domain: "hetzner.com"}
+    - {brand: "Gandi", domain: "gandi.net"}
+    - {brand: "Namecheap", domain: "namecheap.com"}
+    - {brand: "GoDaddy", domain: "godaddy.com"}
+
+  payment_fintech:
+    - {brand: "PayPal", domain: "paypal.com"}
+    - {brand: "Stripe", domain: "stripe.com"}
+    - {brand: "Wise", domain: "wise.com"}
+    - {brand: "Adyen", domain: "adyen.com"}
+    - {brand: "Checkout.com", domain: "checkout.com"}
+    - {brand: "Mollie", domain: "mollie.com"}
+    - {brand: "Square", domain: "squareup.com"}
+    - {brand: "Braintree", domain: "braintreepayments.com"}
+    - {brand: "2Checkout", domain: "2checkout.com"}
+    - {brand: "PayPlug", domain: "payplug.com"}
+
+  saas_productivity:
+    - {brand: "Salesforce", domain: "salesforce.com"}
+    - {brand: "Atlassian", domain: "atlassian.com"}
+    - {brand: "Slack", domain: "slack.com"}
+    - {brand: "Notion", domain: "notion.so"}
+    - {brand: "Figma", domain: "figma.com"}
+    - {brand: "Miro", domain: "miro.com"}
+    - {brand: "Airtable", domain: "airtable.com"}
+    - {brand: "Monday.com", domain: "monday.com"}
+    - {brand: "Asana", domain: "asana.com"}
+    - {brand: "Trello", domain: "trello.com"}
+    - {brand: "Jira", domain: "atlassian.com"}
+    - {brand: "Confluence", domain: "atlassian.com"}
+
+  communication:
+    - {brand: "Discord", domain: "discord.com"}
+    - {brand: "Telegram", domain: "telegram.org"}
+    - {brand: "Signal", domain: "signal.org"}
+    - {brand: "Zoom", domain: "zoom.us"}
+    - {brand: "Teams", domain: "teams.microsoft.com"}
+    - {brand: "Skype", domain: "skype.com"}
+    - {brand: "Whereby", domain: "whereby.com"}
+    - {brand: "Jitsi", domain: "jitsi.org"}
+
+  ecommerce:
+    - {brand: "eBay", domain: "ebay.com"}
+    - {brand: "Etsy", domain: "etsy.com"}
+    - {brand: "Shopify", domain: "shopify.com"}
+    - {brand: "WooCommerce", domain: "woocommerce.com"}
+    - {brand: "PrestaShop", domain: "prestashop.com"}
+    - {brand: "Magento", domain: "magento.com"}
+    - {brand: "Vinted", domain: "vinted.fr"}
+    - {brand: "Leboncoin", domain: "leboncoin.fr"}
+    - {brand: "Cdiscount", domain: "cdiscount.com"}
+    - {brand: "Fnac", domain: "fnac.com"}
+
+  streaming_media:
+    - {brand: "Spotify", domain: "spotify.com"}
+    - {brand: "Deezer", domain: "deezer.com"}
+    - {brand: "Apple Music", domain: "music.apple.com"}
+    - {brand: "YouTube Music", domain: "music.youtube.com"}
+    - {brand: "Twitch", domain: "twitch.tv"}
+    - {brand: "Disney+", domain: "disneyplus.com"}
+    - {brand: "Prime Video", domain: "primevideo.com"}
+    - {brand: "Canal+", domain: "canalplus.com"}
+    - {brand: "Molotov", domain: "molotov.tv"}
+    - {brand: "Arte", domain: "arte.tv"}
+
+  social_media:
+    - {brand: "Reddit", domain: "reddit.com"}
+    - {brand: "Pinterest", domain: "pinterest.com"}
+    - {brand: "Snapchat", domain: "snapchat.com"}
+    - {brand: "TikTok", domain: "tiktok.com"}
+    - {brand: "Mastodon", domain: "joinmastodon.org"}
+    - {brand: "Bluesky", domain: "bsky.app"}
+    - {brand: "Threads", domain: "threads.net"}
+    - {brand: "Quora", domain: "quora.com"}
+    - {brand: "Medium", domain: "medium.com"}
+    - {brand: "Substack", domain: "substack.com"}
+
+  security_privacy:
+    - {brand: "1Password", domain: "1password.com"}
+    - {brand: "Bitwarden", domain: "bitwarden.com"}
+    - {brand: "LastPass", domain: "lastpass.com"}
+    - {brand: "Dashlane", domain: "dashlane.com"}
+    - {brand: "NordVPN", domain: "nordvpn.com"}
+    - {brand: "ExpressVPN", domain: "expressvpn.com"}
+    - {brand: "ProtonVPN", domain: "protonvpn.com"}
+    - {brand: "Mullvad", domain: "mullvad.net"}
+    - {brand: "Cisco Umbrella", domain: "umbrella.cisco.com"}
+    - {brand: "Cloudflare WARP", domain: "cloudflare.com"}
+
+  dns_registrars:
+    - {brand: "Cloudflare Registrar", domain: "cloudflare.com"}
+    - {brand: "Gandi", domain: "gandi.net"}
+    - {brand: "Namecheap", domain: "namecheap.com"}
+    - {brand: "GoDaddy", domain: "godaddy.com"}
+    - {brand: "OVH", domain: "ovh.com"}
+    - {brand: "IONOS", domain: "ionos.com"}
+    - {brand: "Name.com", domain: "name.com"}
+    - {brand: "Porkbun", domain: "porkbun.com"}
+    - {brand: "Google Domains", domain: "domains.google"}
+    - {brand: "Hover", domain: "hover.com"}

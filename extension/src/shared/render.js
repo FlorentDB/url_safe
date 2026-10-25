@@ -18,6 +18,87 @@ export const STATUS_LABELS = {
 };
 
 /**
+ * Map technical reason to simple user-friendly message.
+ * @param {string} reason the technical reason from checker
+ * @returns {string} simplified message
+ */
+function simplifyReason(reason) {
+  if (reason.includes("punycode") || reason.includes("xn--")) {
+    return "Ce domaine utilise une écriture internationale qui peut cacher une imitation visuelle.";
+  }
+  if (reason.includes("mélange des alphabets") || reason.includes("confondables avec le latin")) {
+    return "Le nom de domaine mélange des alphabets différents (ex: cyrillique + latin) pour ressembler à un site connu.";
+  }
+  if (reason.includes("identifiants avant le nom d'hôte") || reason.includes("username") || reason.includes("password")) {
+    return "Ce lien contient un nom d'utilisateur ou mot de passe — tentative de vol d'identifiants possible.";
+  }
+  if (reason.includes("adresse IP") || reason.includes("IP plutôt qu'un nom")) {
+    return "Ce lien utilise une adresse numérique (IP) au lieu d'un nom de domaine — suspect.";
+  }
+  if (reason.includes("port inhabituel")) {
+    return "Ce lien utilise un port non standard — inhabituel pour un site web légitime.";
+  }
+  if (reason.includes("caractère de contrôle encodé")) {
+    return "Le lien cache des caractères invisibles pour tromper les filtres de sécurité.";
+  }
+  if (reason.includes("séquence encodée une seconde fois")) {
+    return "Le lien contient un double encodage pour masquer son véritable contenu.";
+  }
+  if (reason.includes("Signalé par")) {
+    return "Ce domaine est signalé par une source de référence locale.";
+  }
+  if (reason.includes("Ressemblance avec le domaine officiel") || (reason.includes("domaine officiel") && reason.includes("sous-domaine"))) {
+    return "Un domaine officiel est utilisé comme sous-domaine d'un autre site — ce n'est pas le site officiel.";
+  }
+  if (reason.includes("Caractères Unicode confondables")) {
+    return "Des caractères du domaine sont visuellement confondables avec ceux d'un site officiel.";
+  }
+  if (reason.includes("diffère d'un caractère")) {
+    return "Le nom de domaine diffère d'un seul caractère d'un site officiel — imitation possible.";
+  }
+  return reason;
+}
+
+/**
+ * Check if a reason has technical details worth showing in expandable section.
+ * @param {string} reason the technical reason
+ * @returns {boolean}
+ */
+function isTechnicalReason(reason) {
+  return (
+    reason.includes("punycode") ||
+    reason.includes("xn--") ||
+    reason.includes("mélange des alphabets") ||
+    reason.includes("confondables") ||
+    reason.includes("identifiants") ||
+    reason.includes("adresse IP") ||
+    reason.includes("port inhabituel") ||
+    reason.includes("caractère de contrôle") ||
+    reason.includes("double encodage") ||
+    reason.includes("Signalé par") ||
+    reason.includes("Ressemblance") ||
+    reason.includes("Caractères Unicode") ||
+    reason.includes("diffère d'un caractère")
+  );
+}
+
+/**
+ * Format technical reason as HTML for expandable details.
+ * @param {string} reason the technical reason
+ * @returns {string} HTML content
+ */
+function formatTechnicalReason(reason) {
+  const lines = reason.split("\n").filter(l => l.trim());
+  return lines.map(l => `<div class="tech-line">${escapeHtml(l)}</div>`).join("");
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+/**
  * Render a verdict into a container.
  *
  * @param {HTMLElement} root the container, emptied before the verdict is drawn
@@ -77,7 +158,36 @@ export function renderVerdict(root, data) {
     list.className = "reason-list";
     for (const reason of data.reasons) {
       const item = document.createElement("li");
-      item.textContent = reason;
+      item.className = "reason-item";
+
+      // Level 1: Simple message
+      const simple = document.createElement("span");
+      simple.className = "reason-simple";
+      simple.textContent = simplifyReason(reason);
+      item.append(simple);
+
+      // Level 2: Expandable technical details
+      if (isTechnicalReason(reason)) {
+        const toggle = document.createElement("button");
+        toggle.className = "reason-toggle";
+        toggle.textContent = "Voir les détails techniques";
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("type", "button");
+        toggle.addEventListener("click", () => {
+          const expanded = toggle.getAttribute("aria-expanded") === "true";
+          toggle.setAttribute("aria-expanded", !expanded);
+          detailsDiv.hidden = expanded;
+          toggle.textContent = expanded ? "Voir les détails techniques" : "Masquer les détails";
+        });
+        item.append(toggle);
+
+        const detailsDiv = document.createElement("div");
+        detailsDiv.className = "reason-details";
+        detailsDiv.hidden = true;
+        detailsDiv.innerHTML = formatTechnicalReason(reason);
+        item.append(detailsDiv);
+      }
+
       list.append(item);
     }
     root.append(list);

@@ -6,3 +6,6 @@ google.com,known,Curated example domain; not a security validation
 mozilla.org,known,Curated example domain; not a security validation
 wikipedia.org,known,Curated example domain; not a security validation
 youtube.com,known,Curated example domain; not a security validation
+phishing-example.com,malicious,PhishTank demo entry; replace with live feed
+malware-test.net,malicious,OpenPhish demo entry; replace with live feed
+fake-bank-login.xyz,malicious,URLhaus demo entry; replace with live feed

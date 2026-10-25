@@ -1,18 +1,33 @@
+import argparse
 import csv
 import io
+import re
 import sqlite3
 import zipfile
 from contextlib import contextmanager
-from pathlib import Path
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Iterator
+from urllib.parse import urlparse
 
+import httpx
 import idna
 import tldextract
 
-
 DOMAIN_EXTRACTOR = tldextract.TLDExtract(suffix_list_urls=(), fallback_to_snapshot=True)
 MAX_TRANCO_DOMAINS = 1_000_000
+
+# Confidence scores by source (0.0 - 1.0)
+SOURCE_CONFIDENCE = {
+    "phishtank": 0.95,
+    "openphish": 0.90,
+    "urlhaus": 0.95,
+    "abuse_ch_malware": 0.85,
+    "certstream": 0.60,
+    "manual": 1.00,
+    "curated": 0.99,
+    "tranco": 0.10,  # popularity only, not threat intel
+}
 
 
 @contextmanager
@@ -37,8 +52,11 @@ def initialize_database(database_path: Path) -> None:
             """
             CREATE TABLE IF NOT EXISTS domains (
                 hostname TEXT PRIMARY KEY,
-                status TEXT NOT NULL CHECK (status IN ('known', 'malicious')),
+                status TEXT NOT NULL CHECK (status IN ('known', 'malicious', 'expired')),
                 source TEXT NOT NULL,
+                confidence REAL NOT NULL DEFAULT 0.5,
+                last_seen TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                first_seen TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
             """
@@ -79,6 +97,21 @@ def initialize_database(database_path: Path) -> None:
         connection.execute(
             "CREATE INDEX IF NOT EXISTS tranco_domains_hostname_idx ON tranco_domains(hostname)"
         )
+        connection.execute(
+            "CREATE INDEX IF NOT EXISTS domains_status_idx ON domains(status)"
+        )
+        connection.execute(
+            "CREATE INDEX IF NOT EXISTS domains_last_seen_idx ON domains(last_seen)"
+        )
+
+        # Migration: add columns if they don't exist
+        columns = [row[1] for row in connection.execute("PRAGMA table_info(domains)").fetchall()]
+        if "confidence" not in columns:
+            connection.execute("ALTER TABLE domains ADD COLUMN confidence REAL NOT NULL DEFAULT 0.5")
+        if "last_seen" not in columns:
+            connection.execute("ALTER TABLE domains ADD COLUMN last_seen TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP")
+        if "first_seen" not in columns:
+            connection.execute("ALTER TABLE domains ADD COLUMN first_seen TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP")
 
 
 def normalize_domain(domain: str) -> str:
@@ -91,7 +124,7 @@ def normalize_domain(domain: str) -> str:
 def lookup_domain(database_path: Path, hostname: str) -> dict[str, str] | None:
     with connect(database_path) as connection:
         row = connection.execute(
-            "SELECT hostname, status, source, updated_at FROM domains WHERE hostname = ?",
+            "SELECT hostname, status, source, confidence, last_seen, first_seen, updated_at FROM domains WHERE hostname = ?",
             (hostname,),
         ).fetchone()
     return dict(row) if row else None
@@ -255,7 +288,9 @@ def import_brand_domains(
     return imported
 
 
-def import_domains(database_path: Path, csv_path: Path, *, ignore_existing: bool = False) -> int:
+def import_domains(
+    database_path: Path, csv_path: Path, *, ignore_existing: bool = False
+) -> int:
     initialize_database(database_path)
     imported = 0
     with csv_path.open(newline="", encoding="utf-8-sig") as source:
@@ -267,7 +302,7 @@ def import_domains(database_path: Path, csv_path: Path, *, ignore_existing: bool
         with connect(database_path) as connection:
             for row in reader:
                 status = row["status"].strip().lower()
-                if status not in {"known", "malicious"}:
+                if status not in {"known", "malicious", "expired"}:
                     raise ValueError(f"Statut invalide pour {row['hostname']!r} : {status}")
 
                 hostname = normalize_domain(row["hostname"])
@@ -275,22 +310,96 @@ def import_domains(database_path: Path, csv_path: Path, *, ignore_existing: bool
                 if not source_name:
                     raise ValueError(f"Source manquante pour {hostname}.")
 
+                confidence = SOURCE_CONFIDENCE.get(source_name.lower(), 0.5)
+                now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
                 if ignore_existing:
                     cursor = connection.execute(
-                        """INSERT OR IGNORE INTO domains (hostname, status, source)
-                           VALUES (?, ?, ?)""",
-                        (hostname, status, source_name),
+                        """INSERT OR IGNORE INTO domains (hostname, status, source, confidence, last_seen, first_seen)
+                           VALUES (?, ?, ?, ?, ?, ?)""",
+                        (hostname, status, source_name, confidence, now, now),
                     )
                 else:
                     cursor = connection.execute(
-                        """INSERT INTO domains (hostname, status, source)
-                           VALUES (?, ?, ?)
+                        """INSERT INTO domains (hostname, status, source, confidence, last_seen, first_seen)
+                           VALUES (?, ?, ?, ?, ?, ?)
                            ON CONFLICT(hostname) DO UPDATE SET
                                status = excluded.status,
                                source = excluded.source,
+                               confidence = excluded.confidence,
+                               last_seen = excluded.last_seen,
                                updated_at = CURRENT_TIMESTAMP""",
-                        (hostname, status, source_name),
+                        (hostname, status, source_name, confidence, now, now),
                     )
                 imported += cursor.rowcount
 
     return imported
+def extract_hostname_from_url(url: str) -> str | None:
+    """Extract hostname from a URL, handling various formats."""
+    try:
+        if not url.startswith(("http://", "https://")):
+            url = "http://" + url
+        parsed = urlparse(url)
+        hostname = parsed.hostname
+        if hostname:
+            return normalize_domain(hostname)
+    except Exception:
+        pass
+    return None
+
+
+def expire_old_malicious(database_path: Path, days: int = 90) -> int:
+    """Mark malicious domains not seen in N days as expired."""
+    from datetime import timedelta
+    cutoff = datetime.now(timezone.utc).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    cutoff -= timedelta(days=days)
+    cutoff_str = cutoff.isoformat(timespec="seconds")
+
+    with connect(database_path) as connection:
+        cursor = connection.execute(
+            """
+            UPDATE domains
+            SET status = 'expired', updated_at = CURRENT_TIMESTAMP
+            WHERE status = 'malicious' AND last_seen < ?
+            """,
+            (cutoff_str,),
+        )
+        return cursor.rowcount
+
+
+def deduplicate_domains(database_path: Path) -> int:
+    """Remove duplicate hostnames, keeping highest confidence."""
+    with connect(database_path) as connection:
+        cursor = connection.execute(
+            """
+            DELETE FROM domains
+            WHERE rowid NOT IN (
+                SELECT MAX(rowid)
+                FROM domains
+                GROUP BY hostname
+            )
+            """
+        )
+        return cursor.rowcount
+
+
+def get_stats(database_path: Path) -> dict:
+    with connect(database_path) as connection:
+        total = connection.execute("SELECT COUNT(*) as c FROM domains").fetchone()["c"]
+        known = connection.execute("SELECT COUNT(*) as c FROM domains WHERE status = 'known'").fetchone()["c"]
+        malicious = connection.execute("SELECT COUNT(*) as c FROM domains WHERE status = 'malicious'").fetchone()["c"]
+        expired = connection.execute("SELECT COUNT(*) as c FROM domains WHERE status = 'expired'").fetchone()["c"]
+        brands = connection.execute("SELECT COUNT(*) as c FROM brand_domains").fetchone()["c"]
+        tranco = connection.execute("SELECT COUNT(*) as c FROM tranco_domains WHERE list_id = (SELECT list_id FROM tranco_snapshots WHERE is_current = 1)").fetchone()["c"]
+        sources = connection.execute("SELECT source, COUNT(*) as c FROM domains GROUP BY source").fetchall()
+    return {
+        "total_domains": total,
+        "known": known,
+        "malicious": malicious,
+        "expired": expired,
+        "brands": brands,
+        "tranco_domains": tranco,
+        "sources": {row["source"]: row["c"] for row in sources},
+    }
