@@ -1,9 +1,8 @@
 /**
- * Classification, the JavaScript counterpart of `app/verdict.py`.
+ * Classification.
  *
- * The wording is identical to the server's, because the two are shown to the
- * user side by side: the site and the extension must say the same thing
- * about the same link.
+ * The wording is defined here and pinned by the test vectors: changing a title
+ * or an explanation means updating the vectors too.
  */
 
 const IMPERSONATION_MATCH_TYPES = new Set([

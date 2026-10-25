@@ -1,13 +1,12 @@
 /**
  * Hostname canonicalisation for the extension.
  *
- * The server canonicalises a hostname with the `idna` package, which applies
- * UTS #46 together with the STD3 rules. The browser's `URL` parser applies
- * UTS #46 but not STD3, so it accepts hostnames the server rejects, such as
- * `abc_def.com` or a label longer than 63 characters. Using the browser
- * parser alone would make the extension and the API disagree about the same
- * input, so the parser is used for the mapping and the stricter rules are
- * applied on top of it.
+ * A hostname is canonicalised with the `idna` package rules: UTS #46 together
+ * with the STD3 rules. The browser's `URL` parser applies UTS #46 but not
+ * STD3, so it accepts hostnames the rules reject, such as `abc_def.com` or a
+ * label longer than 63 characters. Using the browser parser alone would make
+ * the checker accept hostnames the canonical form rejects, so the parser is
+ * used for the mapping and the stricter rules are applied on top of it.
  *
  * Decoding punycode back to Unicode is done here rather than through the
  * browser, because `TextDecoder` does not support the `punycode` encoding.
@@ -106,7 +105,7 @@ function adapt(delta, numPoints, firstTime) {
  *
  * @param {string} hostname the hostname as written in the URL
  * @returns {string} the canonical ASCII hostname
- * @throws {IdnaError} when the server would also reject the hostname
+ * @throws {IdnaError} when the canonical rules reject the hostname
  */
 export function toAscii(hostname) {
   for (const character of hostname) {

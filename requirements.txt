@@ -1,10 +1,4 @@
-fastapi
-uvicorn
-slowapi
-idna
 confusable-homoglyphs
-rapidfuzz
-tldextract
-httpx
-pytest
+idna
 pyyaml
+tldextract

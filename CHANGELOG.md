@@ -3,6 +3,20 @@
 Les versions suivent le manifeste de l’extension Firefox. Chaque soumission à
 AMO doit porter un numéro strictement supérieur au précédent.
 
+## 0.1.2 — 25 octobre 2026
+
+### Dépôt
+
+- Le dépôt ne contient plus que l’extension Firefox. Le backend FastAPI, les
+  tests Python, le déploiement Render et Raspberry Pi, les outils de flux et la
+  stratégie de base de données ont été supprimés.
+- Les données sources vivent dans `extension/data/`; l’export est assuré par
+  `extension/scripts/export_datasets.py`, sans base SQLite.
+- La politique de confidentialité est dans `extension/src/confidentialite.html`
+  et les vecteurs de test dans `extension/test/vectors.json`.
+- Aucun changement fonctionnel : les jeux de données exportés et le JavaScript
+  embarqué sont identiques ; seule la version change.
+
 ## 0.1.1 — 25 octobre 2026
 
 ### Données embarquées dans l’extension

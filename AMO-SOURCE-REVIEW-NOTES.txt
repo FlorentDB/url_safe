@@ -24,8 +24,8 @@ From the extracted source archive root:
   pip install -r requirements.txt        # or requirements-lock.txt for exact versions
   bash scripts/update_extension.sh
 
-The script imports the CSV/YAML data, exports the bundled datasets, runs the
-Python tests (31) and JavaScript tests (43), builds the add-on and writes:
+The script exports the bundled datasets from extension/data/, runs the
+JavaScript tests (43), builds the add-on and writes:
 
   release/<version>/url_safe-<version>-firefox.zip
   release/<version>/firefox-package/
@@ -39,12 +39,13 @@ No JavaScript is transpiled, concatenated, minified or machine-generated.
 The only generated artefacts are data and images, and every generator and input
 is included:
 
-- extension/src/data/domains.json — from data/domains.csv, data/brands.csv and
-  data/brands-priority.yaml via app/export_datasets.py
+- extension/src/data/domains.json — from extension/data/domains.csv,
+  extension/data/brands.csv and extension/data/brands-priority.yaml via
+  extension/scripts/export_datasets.py
 - extension/src/data/unicode.json — from confusable-homoglyphs 3.3.1 via
-  app/export_datasets.py
+  extension/scripts/export_datasets.py
 - extension/src/data/public_suffixes.json — from tldextract 5.4.0 via
-  app/export_datasets.py
+  extension/scripts/export_datasets.py
 - extension/src/icons/*.png — drawn by extension/scripts/make-icons.py
 
 All other files under extension/ are hand-written source, shipped unmodified.

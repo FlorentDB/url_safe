@@ -70,7 +70,7 @@ AMO peut vérifier aussi les modules non répertoriés. Les mises à jour ne ser
 
 ## Politique de confidentialité
 
-La politique complète est incluse dans le paquet et accessible depuis les options de l’extension, même hors ligne. Son fichier source est `app/static/confidentialite.html`. Pour une fiche de boutique qui exige une URL publique, publier ce document avant la soumission et remplacer cette note par l’URL réelle. Le dépôt n’étant pas configuré ici comme site public, ne pas inventer une URL GitHub Pages.
+La politique complète est incluse dans le paquet et accessible depuis les options de l’extension, même hors ligne. Son fichier source est `extension/src/confidentialite.html`. Pour une fiche de boutique qui exige une URL publique, publier ce document avant la soumission et remplacer cette note par l’URL réelle. Le dépôt n’étant pas configuré ici comme site public, ne pas inventer une URL GitHub Pages.
 
 ## Capture d’écran et suivi
 

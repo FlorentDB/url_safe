@@ -1,9 +1,9 @@
 /**
- * URL analysis, the JavaScript counterpart of `app/checker.py`.
+ * URL analysis.
  *
- * The rules and the wording of the findings are identical to the server, so
- * the two return the same verdict for the same URL. The shared vectors in
- * `shared/vectors/verdicts.json` enforce that.
+ * The rules and the wording of the findings are pinned by the test vectors in
+ * `test/vectors.json`, so changing either is a deliberate change that updates
+ * the vectors as well.
  */
 
 import { IdnaError, toAscii, toUnicode } from "./idna.js";

@@ -131,20 +131,8 @@ else
   echo "== Version : $NEW_VERSION =="
 fi
 
-echo "== Import des domaines =="
-python3 -m app.import_domains data/domains.csv
-
-echo "== Import des marques =="
-python3 -m app.import_domains data/brands.csv --brands
-
-echo "== Import des marques prioritaires (YAML) =="
-python3 scripts/import_brands_from_yaml.py
-
-echo "== Export des jeux de données pour l’extension =="
-python3 -m app.export_datasets
-
-echo "== Suites Python =="
-python3 -m pytest -q
+echo "== Export des jeux de données =="
+python3 extension/scripts/export_datasets.py
 
 cd extension
 
@@ -260,7 +248,7 @@ skip_dirs = {
 skip_suffixes = {".pyc", ".pyo", ".sqlite3", ".xpi", ".zip"}
 skip_names = {".DS_Store"}
 
-trees = ["extension", "app", "data", "scripts", "shared", "tests"]
+trees = ["extension"]
 files = [
     "AMO-SOURCE-README.md",
     "AMO-SOURCE-REVIEW-NOTES.txt",
@@ -270,6 +258,7 @@ files = [
     "ARCHITECTURE.md",
     "CHANGELOG.md",
     "FIREFOX-BETA.md",
+    "scripts/update_extension.sh",
 ]
 
 entries = []
@@ -319,21 +308,24 @@ cp "$ROOT/FIREFOX-BETA.md" "$RELEASE_DIR/LISTING-FR.md"
 # The folder README and the update guide are version-independent, but they are
 # written for one release folder. A new version reuses the previous copies
 # with the version string replaced.
-PREVIOUS_RELEASE="$ROOT/release/$CURRENT_VERSION"
-if [ -d "$PREVIOUS_RELEASE" ] && [ "$PREVIOUS_RELEASE" != "$RELEASE_DIR" ]; then
-  for name in README.txt AMO-UPDATE-GUIDE.md; do
-    if [ -f "$PREVIOUS_RELEASE/$name" ]; then
-      python3 - "$PREVIOUS_RELEASE/$name" "$RELEASE_DIR/$name" "$CURRENT_VERSION" "$NEW_VERSION" <<'PY'
+# The folder README and the update guide are templates: they are rendered for
+# this version instead of being copied from an earlier release folder.
+DOCS_TEMPLATE="$ROOT/docs/amo"
+for name in README.txt AMO-UPDATE-GUIDE.md; do
+  if [ -f "$DOCS_TEMPLATE/$name" ]; then
+    python3 - "$DOCS_TEMPLATE/$name" "$RELEASE_DIR/$name" "$NEW_VERSION" <<'PY'
 import sys
 from pathlib import Path
 
 text = Path(sys.argv[1]).read_text(encoding="utf-8")
-text = text.replace(sys.argv[3], sys.argv[4])
+version = sys.argv[3]
+text = text.replace("{{VERSION}}", version)
+text = text.replace("{{FIREFOX_ZIP}}", f"url_safe-{version}-firefox.zip")
+text = text.replace("{{SOURCE_ZIP}}", f"url_safe-{version}-source.zip")
 Path(sys.argv[2]).write_text(text, encoding="utf-8")
 PY
-    fi
-  done
-fi
+  fi
+done
 
 # Release notes describe the changes of one version and cannot be inherited.
 if [ ! -f "$RELEASE_DIR/AMO-RELEASE-NOTES.txt" ]; then

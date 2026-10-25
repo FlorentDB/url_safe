@@ -2,7 +2,6 @@
 __pycache__/
 .pytest_cache/
 *.py[cod]
-data/*.sqlite3
 extension/dist/
 
 # Release artefacts (signed-ready ZIPs and generated notes). The tracked

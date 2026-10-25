@@ -10,7 +10,7 @@
     "build:release": "node scripts/build.mjs --release",
     "build:firefox": "node scripts/build.mjs --target firefox --release",
     "icons": "python3 scripts/make-icons.py",
-    "data": "cd .. && python3 -m app.export_datasets",
+    "data": "python3 scripts/export_datasets.py",
     "smoke": "node scripts/smoke-test.mjs"
   },
   "engines": {

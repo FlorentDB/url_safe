@@ -74,7 +74,7 @@ Before submission, review the disclosure against the final implementation and th
 
 **Privacy policy URL:** Not yet published. Publish the extension-specific policy at a stable public URL before submission. A copy inside the extension package is not a substitute for the dashboard URL.
 
-The current policy is `app/static/confidentialite.html`. It must remain consistent with the extension-only data practices above and should be reachable independently of the not-yet-deployed application website.
+The current policy is `extension/src/confidentialite.html`. It must remain consistent with the extension-only data practices above and should be reachable independently of the not-yet-deployed application website.
 
 ## Distribution
 
@@ -116,7 +116,6 @@ Chrome publication is paused while the Firefox beta is tested. Do not upload the
 ## Known Issues / Limitations
 
 - The packaged extension currently contains 10 domain records (7 `known`, 3 `malicious` demonstration entries), 215 brand records. The three malicious entries come from demonstration seeds, not live feeds.
-- The server's separate SQLite database contains a Tranco snapshot of 10,000 popular domains, but that snapshot is not included in the extension's bundled datasets.
-- The bundled `domains.csv` and `brands.csv` are explicitly demonstration data, not maintained threat intelligence.
+- The bundled `extension/data/domains.csv` and `extension/data/brands.csv` are explicitly demonstration data, not maintained threat intelligence.
 - Unicode and URL heuristics are signals, not proof that a link is malicious or safe.
-- Store screenshots, a monitored contact address, and a public privacy-policy URL are not ready.
+- Store screenshots and a public privacy-policy URL are not ready.

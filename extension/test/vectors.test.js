@@ -7,10 +7,9 @@ import { test } from "node:test";
 import { Checker, UrlInputError } from "../src/core/index.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(HERE, "..", "..");
 
 const VECTORS = JSON.parse(
-  readFileSync(join(ROOT, "shared", "vectors", "verdicts.json"), "utf8"),
+  readFileSync(join(HERE, "vectors.json"), "utf8"),
 );
 
 const DATASETS = {

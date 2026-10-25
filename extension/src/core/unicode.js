@@ -1,10 +1,9 @@
 /**
  * Unicode confusable and mixed-script detection.
  *
- * This is the JavaScript counterpart of `app/unicode_security.py`. It reads
- * the tables exported by `python -m app.export_datasets`, which are trimmed
- * to the characters that can be confusable with Latin, the only relation the
- * product asks about.
+ * It reads the tables exported by `scripts/export_datasets.py`, which are
+ * trimmed to the characters that can be confusable with Latin, the only
+ * relation the product asks about.
  *
  * The exported tables use the same shape as the `confusable-homoglyphs`
  * package: a map from a character to the list of characters it can be

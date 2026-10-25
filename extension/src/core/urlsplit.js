@@ -3,8 +3,8 @@
  *
  * The browser's `URL` parser is not used for this. It percent-decodes the
  * host, keeps the brackets around an IPv6 literal, and normalises parts the
- * server leaves untouched, so the two would disagree on the same input. The
- * server is the reference, and this module reproduces its behaviour.
+ * rules leave untouched, so the two disagree on the same input. Python's
+ * splitter is the reference, and this module reproduces its behaviour.
  */
 
 const SCHEME_CHARACTERS = /^[a-zA-Z0-9+.-]$/;
@@ -124,7 +124,7 @@ export class SplitResult {
   }
 }
 
-/** Raised when a URL cannot be split the way the server splits it. */
+/** Raised when a URL cannot be split the way the rules split it. */
 export class UrlSplitError extends Error {}
 
 /**

@@ -27,10 +27,6 @@ import { toFirefoxManifest } from "./firefox-manifest.mjs";
 const EXTENSION_ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCE_DIR = join(EXTENSION_ROOT, "src");
 const DIST_DIR = join(EXTENSION_ROOT, "dist");
-const PROJECT_ROOT = join(EXTENSION_ROOT, "..");
-
-/** The privacy policy, written once for the website and shipped with the extension. */
-const PRIVACY_POLICY = join(PROJECT_ROOT, "app", "static", "confidentialite.html");
 
 /**
  * The localised strings.
@@ -110,15 +106,6 @@ async function listFiles(directory, prefix = "") {
  * @returns {Promise<boolean>} true when the file exists
  */
 async function exists(path) {
-  if (path === "src/confidentialite.html") {
-    try {
-      await stat(PRIVACY_POLICY);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
   try {
     await stat(join(EXTENSION_ROOT, path));
     return true;
@@ -338,10 +325,6 @@ async function main() {
     const directory = join(DIST_DIR, target.name);
     await mkdir(directory, { recursive: true });
     await cp(SOURCE_DIR, join(directory, "src"), { recursive: true });
-
-    // The privacy policy is written once, on the website, and shipped with
-    // the extension so it stays reachable even without a network.
-    await cp(PRIVACY_POLICY, join(directory, "src", "confidentialite.html"));
 
     // The localised strings have to sit next to the manifest.
     await cp(LOCALES_DIR, join(directory, "_locales"), { recursive: true });

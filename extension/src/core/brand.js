@@ -1,10 +1,9 @@
 /**
  * Brand lookalike detection.
  *
- * This is the JavaScript counterpart of `app/brand_matcher.py`. It answers
- * three questions about a hostname: is it the official domain of a known
- * brand, does it differ from one by a single character, and is an official
- * domain used as a secondary part of the address.
+ * It answers three questions about a hostname: is it the official domain of a
+ * known brand, does it differ from one by a single character, and is an
+ * official domain used as a secondary part of the address.
  */
 
 import { toUnicode } from "./idna.js";

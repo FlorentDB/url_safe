@@ -1,10 +1,8 @@
 /**
  * Public suffix list matching.
  *
- * This is the JavaScript counterpart of the `tldextract` calls in
- * `app/brand_matcher.py` and `app/database.py`. The rules come from the same
- * snapshot the server uses, so both agree on where a registrable domain
- * begins.
+ * The rules come from the snapshot `tldextract` ships, which
+ * `scripts/export_datasets.py` writes to `src/data/public_suffixes.json`.
  *
  * The algorithm mirrors the one `tldextract` implements: the rules are held
  * in a trie whose labels are stored in reverse order, and the hostname is

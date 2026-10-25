@@ -43,8 +43,8 @@ to build the submitted package, install the lock file instead:
 pip install -r requirements-lock.txt
 ```
 
-The lock file records the whole tested environment, including test and audit
-tooling. The two Python packages that determine the generated data are
+The lock file records the exact versions used for the submitted package. The
+two Python packages that determine the generated data are
 `confusable-homoglyphs==3.3.1` and `tldextract==5.4.0`.
 
 ## 3. Build the add-on
@@ -57,17 +57,14 @@ bash scripts/update_extension.sh
 
 This single script performs every technical step:
 
-1. imports `data/domains.csv` and `data/brands.csv` into
-   `data/url_safe.sqlite3` (`python3 -m app.import_domains`);
-2. imports `data/brands-priority.yaml`
-   (`python3 scripts/import_brands_from_yaml.py`);
-3. exports the datasets with `python3 -m app.export_datasets`, writing
+1. exports the datasets with `python3 extension/scripts/export_datasets.py`,
+   reading `extension/data/domains.csv`, `extension/data/brands.csv` and
+   `extension/data/brands-priority.yaml`, and writing
    `extension/src/data/domains.json`, `unicode.json` and
    `public_suffixes.json`;
-4. runs the Python suite (`python3 -m pytest -q`, 31 tests);
-5. runs the JavaScript suite (`npm test` in `extension/`, 43 tests);
-6. builds the Firefox package (`npm run build:firefox`);
-7. writes the release folder, including
+2. runs the JavaScript suite (`npm test` in `extension/`, 43 tests);
+3. builds the Firefox package (`npm run build:firefox`);
+4. writes the release folder, including
    `release/<version>/url_safe-<version>-firefox.zip` (add-on,
    `manifest.json` at its root), `release/<version>/firefox-package/` (same
    files extracted) and `release/<version>/url_safe-<version>-source.zip`
@@ -88,20 +85,17 @@ If `zip` is unavailable the script still works: the re-zip step is pure Python.
   `extension/scripts/firefox-manifest.mjs` derives the Firefox manifest from
   it: background scripts instead of a service worker, the Gecko ID
   `url-safe@url-safe.fr`, and the data-collection declaration.
-- `extension/scripts/build.mjs` copies `extension/src/`, `extension/_locales/`
-  and `app/static/confidentialite.html` into the package, checks that every
-  manifest reference exists, and writes the ZIP.
+- `extension/scripts/build.mjs` copies `extension/src/` and
+  `extension/_locales/` into the package, checks that every manifest reference
+  exists, and writes the ZIP. `extension/src/confidentialite.html` is part of
+  the source tree and ships as is.
 - `scripts/update_extension.sh` runs the whole pipeline, then re-zips the built
   tree as a conventional ZIP with `manifest.json` first and at the root.
 
 Each step can also be run by hand, in this order, from the archive root:
 
 ```sh
-python3 -m app.import_domains data/domains.csv
-python3 -m app.import_domains data/brands.csv --brands
-python3 scripts/import_brands_from_yaml.py
-python3 -m app.export_datasets
-python3 -m pytest -q
+python3 extension/scripts/export_datasets.py
 cd extension
 npm test
 npm run build:firefox
@@ -118,9 +112,9 @@ the generators and every input, so each one can be reproduced:
 
 | Generated file | Generator | Inputs |
 |---|---|---|
-| `extension/src/data/domains.json` | `app/export_datasets.py` → `export_domains` | `data/domains.csv`, `data/brands.csv`, `data/brands-priority.yaml`, through `data/url_safe.sqlite3` |
-| `extension/src/data/unicode.json` | `app/export_datasets.py` → `export_unicode` | the `confusable-homoglyphs` 3.3.1 tables |
-| `extension/src/data/public_suffixes.json` | `app/export_datasets.py` → `export_public_suffix_list` | the `tldextract` 5.4.0 public-suffix snapshot |
+| `extension/src/data/domains.json` | `extension/scripts/export_datasets.py` → `export_domains` | `extension/data/domains.csv`, `extension/data/brands.csv`, `extension/data/brands-priority.yaml` |
+| `extension/src/data/unicode.json` | `extension/scripts/export_datasets.py` → `export_unicode` | the `confusable-homoglyphs` 3.3.1 tables |
+| `extension/src/data/public_suffixes.json` | `extension/scripts/export_datasets.py` → `export_public_suffix_list` | the `tldextract` 5.4.0 public-suffix snapshot |
 | `extension/src/icons/icon-*.png` | `extension/scripts/make-icons.py` | the project colours, drawn as PNG by the script |
 
 Every other file under `extension/` is hand-written and is shipped unmodified.
@@ -144,15 +138,15 @@ file list and per-file contents: they are identical.
 ## 7. Source layout
 
 ```text
-app/                  Python checker, database and exporters (reference implementation)
-data/                 CSV and YAML inputs for the domain and brand registries
-extension/            add-on source, manifest, tests and build scripts
-  src/core/           checker in JavaScript, counterpart of app/
+extension/            add-on source, data inputs, tests and build scripts
+  data/               CSV and YAML inputs for the domain and brand registries
+  src/core/           URL analysis, Unicode, brand and suffix matching
   src/shared/         dataset loading, rendering, settings
   src/data/           generated data assets (see section 5)
-shared/vectors/       shared Python/JavaScript verdict vectors
-scripts/              update_extension.sh and the data importers
-tests/                Python test suite
+  scripts/            build, icons and dataset export
+  test/               JavaScript suite and verdict vectors
+scripts/
+  update_extension.sh one-command export, test, build and release
 requirements.txt      direct dependencies
 requirements-lock.txt exact versions used for the submitted package
 ```
